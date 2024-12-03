@@ -1,7 +1,7 @@
 package com.example.pcbuilder.service;
 
-import com.example.pcbuilder.data.model.BuildDto;
-import edu.rutmiit.example.pcbuildercontracts.viewmodel.build.BuildFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;

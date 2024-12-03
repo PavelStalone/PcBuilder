@@ -4,6 +4,7 @@ import com.example.pcbuilder.common.fake.ClassFiller;
 import com.example.pcbuilder.data.model.UserDto;
 import com.example.pcbuilder.data.model.product.*;
 import com.example.pcbuilder.service.AdminService;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

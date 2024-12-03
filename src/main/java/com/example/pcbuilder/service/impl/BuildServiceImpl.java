@@ -2,13 +2,13 @@ package com.example.pcbuilder.service.impl;
 
 import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.common.validation.ValidationUtil;
-import com.example.pcbuilder.data.model.BuildDto;
 import com.example.pcbuilder.domain.entity.Build;
 import com.example.pcbuilder.domain.entity.Tag;
 import com.example.pcbuilder.domain.repository.contract.BuildRepository;
 import com.example.pcbuilder.service.BuildService;
-import edu.rutmiit.example.pcbuildercontracts.viewmodel.build.BuildFilter;
-import edu.rutmiit.example.pcbuildercontracts.viewmodel.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,8 +45,7 @@ public class BuildServiceImpl implements BuildService {
 
     @Override
     public Page<BuildDto> getAllBuildsByFilter(BuildFilter filter) {
-        var tags = filter
-                .tags()
+        var tags = filter.tags()
                 .stream()
                 .map((it) -> Mapper.createTypeMap(TagDto.class, Tag.class).map(it))
                 .toList();
@@ -54,6 +53,6 @@ public class BuildServiceImpl implements BuildService {
         Pageable pageable = PageRequest.of(filter.page() - 1, filter.size(), Sort.by("cost"));
 
         return repository.getAllBuildsByFilters(tags, costRange, pageable)
-                .map((it) -> Mapper.createTypeMap(Build.class, BuildDto.class));
+                .map((it) -> Mapper.createTypeMap(Build.class, BuildDto.class).map(it));
     }
 }

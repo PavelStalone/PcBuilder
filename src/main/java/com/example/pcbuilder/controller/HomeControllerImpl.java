@@ -1,8 +1,8 @@
 package com.example.pcbuilder.controller;
 
 import edu.rutmiit.example.pcbuildercontracts.controllers.home.HomeController;
-import edu.rutmiit.example.pcbuildercontracts.viewmodel.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.viewmodel.home.HomeViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.home.HomeViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,5 +1,6 @@
 package com.example.pcbuilder.data.model;
 
+import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
