@@ -1,9 +1,9 @@
 package com.example.pcbuilder.common.fake;
 
 import com.example.pcbuilder.data.model.UserDto;
-import com.example.pcbuilder.data.model.product.*;
 import com.github.javafaker.Faker;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -132,9 +132,9 @@ public class FakerConfig {
     }
 
     @Bean
-    public ClassFiller<GraphicsCardDto> gpuFiller() {
+    public ClassFiller<GpuDto> gpuFiller() {
         return () -> {
-            var gpu = new GraphicsCardDto();
+            var gpu = new GpuDto();
 
             gpu.setCost(faker.random().nextInt(20000, 500000));
             gpu.setFreq(faker.random().nextInt(1500, 5000));

@@ -2,9 +2,9 @@ package com.example.pcbuilder.common.dbinitial;
 
 import com.example.pcbuilder.common.fake.ClassFiller;
 import com.example.pcbuilder.data.model.UserDto;
-import com.example.pcbuilder.data.model.product.*;
-import com.example.pcbuilder.service.AdminService;
+import com.example.pcbuilder.service.admin.contract.AdminService;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -61,8 +61,8 @@ public class DbConfig {
 
     @Bean
     public DbRandomWriter gpuWriter(
-            AdminService<GraphicsCardDto> service,
-            ClassFiller<GraphicsCardDto> filler
+            AdminService<GpuDto> service,
+            ClassFiller<GpuDto> filler
     ) {
         return new BaseWriter<>(service, filler);
     }

@@ -1,7 +1,7 @@
 package com.example.pcbuilder.common.dbinitial;
 
 import com.example.pcbuilder.common.fake.ClassFiller;
-import com.example.pcbuilder.service.AdminService;
+import com.example.pcbuilder.service.admin.contract.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Stream;
