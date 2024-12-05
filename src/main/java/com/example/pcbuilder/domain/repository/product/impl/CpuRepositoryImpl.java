@@ -15,6 +15,11 @@ import java.util.UUID;
 public class CpuRepositoryImpl extends BaseRepository<BaseProcessorRepository> implements CpuRepository {
 
     @Override
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
+    }
+
+    @Override
     public Optional<Processor> getById(UUID id) {
         return repository.findById(id);
     }

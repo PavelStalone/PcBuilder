@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<!--<body class="d-flex flex-column h-100">-->
+<!--<div th:replace="fragments/navbar">Navbar</div>-->
+<!--<main class="flex-shrink-0">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-2"></div>-->
+<!--            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">-->
+<!--                <div class="justify-content-center">-->
+<!--                    <h1>Изменить книгу</h1>-->
+<!--                </div>-->
+<!--                <form th:action="@{/product/cpu/{id}/edit(id=${form.id})}"-->
+<!--                      th:method="post"-->
+<!--                      th:object="${form}"-->
+<!--                      class="m-md-auto w-50 pb-3">-->
+
+<!--                    <input th:field="*{id}"-->
+<!--                           type="hidden"-->
+<!--                           class="form-control text-center"-->
+<!--                           id="id"/>-->
+
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label" for="model">Model</label>-->
+<!--                        <input th:field="*{model}"-->
+<!--                               th:errorclass="is-invalid"-->
+<!--                               type="text"-->
+<!--                               class="form-control text-center"-->
+<!--                               id="model"/>-->
+<!--                        <small th:if="${#fields.hasErrors('model')}"-->
+<!--                               th:errors="*{model}"-->
+<!--                               class="text-danger">Error message</small>-->
+<!--                    </div>-->
+
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label" for="year">Author</label>-->
+<!--                        <input th:field="*{year}"-->
+<!--                               th:errorclass="is-invalid"-->
+<!--                               type="number"-->
+<!--                               min="1800"-->
+<!--                               class="form-control text-center"-->
+<!--                               id="year"/>-->
+<!--                        <small th:if="${#fields.hasErrors('year')}"-->
+<!--                               th:errors="*{year}"-->
+<!--                               class="text-danger">Error message</small>-->
+<!--                    </div>-->
+
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label" for="cores">Year</label>-->
+<!--                        <input th:field="*{cores}"-->
+<!--                               th:errorclass="is-invalid"-->
+<!--                               type="number"-->
+<!--                               min="1"-->
+<!--                               class="form-control text-center"-->
+<!--                               id="cores"/>-->
+<!--                        <small th:if="${#fields.hasErrors('cores')}"-->
+<!--                               th:errors="*{cores}"-->
+<!--                               class="text-danger">Error message</small>-->
+<!--                    </div>-->
+<!--                    <button type="submit" class="btn btn-secondary">Изменить книгу</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</main>-->
+<!--<footer th:replace="fragments/footer"/>-->
+<!--</body>-->
+
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <h1 class="text-center mb-4">Редактирование процессора</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/product/cpu/{id}/edit(id=${form.id})}" method="post" th:object="${form}">
+                            <div class="small text-muted mb-3">
+                                ID: <span th:text="*{id}"></span>
+                                <input type="hidden" th:field="*{id}">
+                            </div>
+
+                            <!-- Основная информация -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Основная информация</h5>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="model" class="form-label">Модель</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="model"
+                                           th:field="*{model}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('model')}"
+                                           th:errors="*{model}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="price" class="form-label">Цена</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="price"
+                                           th:field="*{cost}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('cost')}"
+                                           th:errors="*{cost}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="year" class="form-label">Год выпуска</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="year"
+                                           th:field="*{year}"
+                                           th:errorclass="is-invalid"
+                                           min="1800"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('year')}"
+                                           th:errors="*{year}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Производительность -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Производительность</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="cores" class="form-label">Количество ядер</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="cores"
+                                           th:field="*{cores}"
+                                           th:errorclass="is-invalid"
+                                           min="1"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('cores')}"
+                                           th:errors="*{cores}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="threads" class="form-label">Количество потоков</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="threads"
+                                           th:field="*{threads}"
+                                           th:errorclass="is-invalid"
+                                           min="1"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('threads')}"
+                                           th:errors="*{threads}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="baseFreq" class="form-label">Базовая частота (Гц)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="baseFreq"
+                                           th:field="*{baseFreq}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('baseFreq')}"
+                                           th:errors="*{baseFreq}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxFreq" class="form-label">Частота в турбо режиме (Гц)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxFreq"
+                                           th:field="*{maxFreq}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxFreq')}"
+                                           th:errors="*{maxFreq}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Память -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Память</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="socket" class="form-label">Сокет</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="socket"
+                                           th:field="*{socket}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('socket')}"
+                                           th:errors="*{socket}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxMemory" class="form-label">Максимальный объем памяти (ГБ)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxMemory"
+                                           th:field="*{maxMemory}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxMemory')}"
+                                           th:errors="*{maxMemory}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Поддерживаемые типы памяти</label>
+
+                                    <div th:each="ramType : ${model.ramTypes}" class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               th:value="${ramType}"
+                                               th:field="*{memoryType}"
+                                               th:errorclass="is-invalid">
+                                        <label class="form-check-label" th:text="${ramType}">DDR4</label>
+                                    </div>
+                                    <small th:if="${#fields.hasErrors('memoryType')}"
+                                           th:errors="*{memoryType}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительно -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Дополнительно</h5>
+
+                                <div class="col-12 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="hasGraphicsCore"
+                                               th:field="*{hasGraphicsCore}"
+                                               th:errorclass="is-invalid">
+                                        <label class="form-check-label" for="hasGraphicsCore">
+                                            Встроенное графическое ядро
+                                        </label>
+                                        <small th:if="${#fields.hasErrors('hasGraphicsCore')}"
+                                               th:errors="*{hasGraphicsCore}"
+                                               class="text-danger">Error message</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/product/cpu/{id}(id=${form.id})}" class="btn btn-outline-secondary">
+                                    Отмена
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Сохранить изменения
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

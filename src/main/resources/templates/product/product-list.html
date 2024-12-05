@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+                <h2 class="text-center text-dark mt-5">Комплектующие</h2>
+
+                <div th:if="${#lists.isEmpty(model.products)}" class="alert alert-info">
+                    Комплектующие не найдены
+                </div>
+
+                <div th:if="${not #lists.isEmpty(model.products)}">
+                    <a class="btn d-flex flex-column bg-text mb-3 p-3 border rounded"
+                       th:each="product : ${model.products}"
+                       th:href="@{/product/{postfix}(postfix=${product.postfix})}">
+
+                            <h4 th:text="${product.name}">Название комплектующего</h4>
+                            <!--                        <div class="mt-2">-->
+                            <!--                            <a class="btn btn-secondary"-->
+                            <!--                               th:href="@{/books/{id}(id=${book.id})}">Подробнее</a>-->
+                            <!--                        </div>-->
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

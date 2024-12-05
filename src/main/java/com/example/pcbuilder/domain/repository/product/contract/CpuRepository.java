@@ -9,9 +9,12 @@ import java.util.UUID;
 
 public interface CpuRepository {
 
+    void deleteById(UUID id);
+
     Optional<Processor> getById(UUID id);
 
     Processor create(Processor processor);
 
     Page<Processor> getAllByFilter(Pageable pageable);
+
 }

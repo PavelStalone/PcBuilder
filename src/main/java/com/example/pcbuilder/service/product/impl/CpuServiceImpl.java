@@ -49,7 +49,7 @@ public class CpuServiceImpl implements CpuService {
 
     @Override
     public void remove(UUID id) {
-        // TODO: add remove cpu - shoplikpavel
+        repository.deleteById(id);
     }
 
     @Override
