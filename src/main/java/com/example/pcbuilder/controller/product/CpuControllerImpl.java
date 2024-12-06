@@ -1,5 +1,6 @@
 package com.example.pcbuilder.controller.product;
 
+import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.CpuService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.CpuController;
@@ -14,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
 
@@ -33,22 +37,29 @@ public class CpuControllerImpl implements CpuController {
 
     @Override
     @GetMapping
-    public String cpuList(
-            @ModelAttribute("filter") CpuFilter cpuFilter,
+    public String list(
+            @ModelAttribute("filter") CpuFilter filter,
             Model model
     ) {
-        var filter = new CpuFilter(
-                cpuFilter.page() != null ? cpuFilter.page() : 1,
-                cpuFilter.size() != null ? cpuFilter.size() : 10,
-                "",
-                cpuFilter.isDescCost(),
-                cpuFilter.costRange(),
-                cpuFilter.yearRange(),
-                cpuFilter.coreRange(),
-                cpuFilter.freqRange(),
-                cpuFilter.threadRange()
+        Log.d("list called - filter: " + filter);
+
+        var filterIn = new CpuFilter(
+                filter.page() != null ? filter.page() : 1,
+                filter.size() != null ? filter.size() : 10,
+                filter.model(),
+                filter.isDescCost(),
+                filter.costLower(),
+                filter.costUpper(),
+                filter.yearLower(),
+                filter.yearUpper(),
+                filter.coreLower(),
+                filter.coreUpper(),
+                filter.freqLower(),
+                filter.freqUpper(),
+                filter.threadLower(),
+                filter.threadUpper()
         );
-        var cpuPages = cpuService.getAllByFilter(filter)
+        var cpuPages = cpuService.getAllByFilter(filterIn)
                 .map((it) -> Mapper.createTypeMap(CpuDto.class, CpuViewModel.class).map(it));
 
         var cpuVM = new CpuListViewModel(
@@ -58,17 +69,19 @@ public class CpuControllerImpl implements CpuController {
         );
 
         model.addAttribute("model", cpuVM);
-        model.addAttribute("filter", filter);
+        model.addAttribute("filter", filterIn);
 
         return "product/cpu/list";
     }
 
     @Override
     @GetMapping("/{id}")
-    public String detailCpu(
+    public String detail(
             UUID id,
             Model model
     ) {
+        Log.d("detail called - id: " + id);
+
         var details = new CpuDetailsViewModel(
                 createBaseViewModel("Процессор"),
                 cpuService.getById(id).orElse(null)
@@ -82,6 +95,8 @@ public class CpuControllerImpl implements CpuController {
     @Override
     @GetMapping("/create")
     public String createForm(Model model) {
+        Log.d("createForm called");
+
         var details = new CpuInputViewModel(
                 createBaseViewModel("Добавление процессора"),
                 ramType
@@ -100,9 +115,9 @@ public class CpuControllerImpl implements CpuController {
             BindingResult bindingResult,
             Model model
     ) {
-        if (bindingResult.hasErrors()) {
-            System.out.println("Error - " + form);
+        Log.d("Create called - form: " + form);
 
+        if (bindingResult.hasErrors()) {
             var details = new CpuInputViewModel(
                     createBaseViewModel("Добавление процессора"),
                     ramType
@@ -113,8 +128,6 @@ public class CpuControllerImpl implements CpuController {
 
             return "product/cpu/create";
         }
-
-        System.out.println(form);
 
         var id = cpuService.create(form);
 
@@ -127,6 +140,8 @@ public class CpuControllerImpl implements CpuController {
             UUID id,
             Model model
     ) {
+        Log.d("editForm called - id: " + id);
+
         var details = new CpuInputViewModel(
                 createBaseViewModel("Редактирование процессора"),
                 ramType
@@ -147,9 +162,9 @@ public class CpuControllerImpl implements CpuController {
             BindingResult bindingResult,
             Model model
     ) {
-        if (bindingResult.hasErrors()) {
-            System.out.println("Error - " + form);
+        Log.d("edit called - id: %s, form: %s", id, form);
 
+        if (bindingResult.hasErrors()) {
             var details = new CpuInputViewModel(
                     createBaseViewModel("Редактирование процессора"),
                     ramType
@@ -161,8 +176,6 @@ public class CpuControllerImpl implements CpuController {
             return "product/cpu/edit";
         }
 
-        System.out.println(form);
-
         cpuService.create(form);
 
         return "redirect:/product/cpu/" + id;
@@ -171,6 +184,8 @@ public class CpuControllerImpl implements CpuController {
     @Override
     @GetMapping("/{id}/delete")
     public String delete(UUID id, Model model) {
+        Log.d("delete called - id: " + id);
+
         cpuService.remove(id);
 
         return "redirect:/product/cpu";

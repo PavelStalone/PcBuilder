@@ -1,7 +1,7 @@
 package com.example.pcbuilder.common.dbinitial;
 
 import com.example.pcbuilder.common.fake.ClassFiller;
-import com.example.pcbuilder.data.model.UserDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import com.example.pcbuilder.service.admin.contract.AdminService;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
@@ -16,7 +16,7 @@ public class DbConfig {
             AdminService<CpuDto> service,
             ClassFiller<CpuDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Cpu");
     }
 
     @Bean
@@ -24,7 +24,7 @@ public class DbConfig {
             AdminService<SsdDto> service,
             ClassFiller<SsdDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Ssd");
     }
 
     @Bean
@@ -32,7 +32,7 @@ public class DbConfig {
             AdminService<RamDto> service,
             ClassFiller<RamDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Ram");
     }
 
     @Bean
@@ -40,7 +40,7 @@ public class DbConfig {
             AdminService<PowerDto> service,
             ClassFiller<PowerDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Power");
     }
 
     @Bean
@@ -48,7 +48,7 @@ public class DbConfig {
             AdminService<MotherboardDto> service,
             ClassFiller<MotherboardDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Motherboard");
     }
 
     @Bean
@@ -56,7 +56,7 @@ public class DbConfig {
             AdminService<HddDto> service,
             ClassFiller<HddDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Hdd");
     }
 
     @Bean
@@ -64,7 +64,7 @@ public class DbConfig {
             AdminService<GpuDto> service,
             ClassFiller<GpuDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Gpu");
     }
 
     @Bean
@@ -72,7 +72,7 @@ public class DbConfig {
             AdminService<CaseDto> service,
             ClassFiller<CaseDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Case");
     }
 
     @Bean
@@ -80,7 +80,7 @@ public class DbConfig {
             AdminService<UserDto> service,
             ClassFiller<UserDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "User");
     }
 
     @Bean
@@ -88,6 +88,6 @@ public class DbConfig {
             AdminService<TagDto> service,
             ClassFiller<TagDto> filler
     ) {
-        return new BaseWriter<>(service, filler);
+        return new BaseWriter<>(service, filler, "Tag");
     }
 }

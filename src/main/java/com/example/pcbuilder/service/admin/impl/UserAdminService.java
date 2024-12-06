@@ -1,8 +1,8 @@
 package com.example.pcbuilder.service.admin.impl;
 
-import com.example.pcbuilder.data.model.UserDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import com.example.pcbuilder.domain.entity.User;
-import com.example.pcbuilder.domain.repository.BaseUserRepository;
+import com.example.pcbuilder.domain.repository.other.base.BaseUserRepository;
 import com.example.pcbuilder.service.admin.BaseAdminService;
 import org.springframework.stereotype.Service;
 

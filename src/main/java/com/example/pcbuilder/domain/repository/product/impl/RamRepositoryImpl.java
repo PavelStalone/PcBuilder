@@ -1,9 +1,9 @@
 package com.example.pcbuilder.domain.repository.product.impl;
 
-import com.example.pcbuilder.domain.entity.product.Processor;
+import com.example.pcbuilder.domain.entity.product.RAM;
 import com.example.pcbuilder.domain.repository.BaseRepository;
-import com.example.pcbuilder.domain.repository.product.base.BaseProcessorRepository;
-import com.example.pcbuilder.domain.repository.product.contract.CpuRepository;
+import com.example.pcbuilder.domain.repository.product.base.BaseRamRepository;
+import com.example.pcbuilder.domain.repository.product.contract.RamRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class CpuRepositoryImpl extends BaseRepository<BaseProcessorRepository> implements CpuRepository {
+public class RamRepositoryImpl extends BaseRepository<BaseRamRepository> implements RamRepository {
 
     @Override
     public void deleteById(UUID id) {
@@ -21,18 +21,18 @@ public class CpuRepositoryImpl extends BaseRepository<BaseProcessorRepository> i
     }
 
     @Override
-    public Optional<Processor> getById(UUID id) {
+    public Optional<RAM> getById(UUID id) {
         return repository.findById(id);
     }
 
     @Override
-    public Processor create(Processor processor) {
-        return repository.save(processor);
+    public RAM create(RAM entity) {
+        return repository.save(entity);
     }
 
     @Override
-    public Page<Processor> getAllByFilter(
-            Specification<Processor> spec,
+    public Page<RAM> getAllByFilter(
+            Specification<RAM> spec,
             Pageable pageable
     ) {
         return repository.findAll(spec, pageable);

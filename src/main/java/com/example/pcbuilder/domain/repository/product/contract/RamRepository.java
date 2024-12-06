@@ -1,6 +1,6 @@
 package com.example.pcbuilder.domain.repository.product.contract;
 
-import com.example.pcbuilder.domain.entity.product.Processor;
+import com.example.pcbuilder.domain.entity.product.RAM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -8,13 +8,13 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CpuRepository {
+public interface RamRepository {
 
     void deleteById(UUID id);
 
-    Optional<Processor> getById(UUID id);
+    Optional<RAM> getById(UUID id);
 
-    Processor create(Processor processor);
+    RAM create(RAM entity);
 
-    Page<Processor> getAllByFilter(Specification<Processor> spec, Pageable pageable);
+    Page<RAM> getAllByFilter(Specification<RAM> spec, Pageable pageable);
 }

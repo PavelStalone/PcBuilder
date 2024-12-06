@@ -1,4 +1,4 @@
-package com.example.pcbuilder.domain.repository.contract;
+package com.example.pcbuilder.domain.repository.other.contract;
 
 import com.example.pcbuilder.domain.entity.Tag;
 

@@ -39,12 +39,6 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @GetMapping("/case")
-    public String caseList(@ModelAttribute("filter") CaseFilter caseFilter, Model model) {
-        return null;
-    }
-
-    @Override
     public String gpuList(GpuFilter gpuFilter, Model model) {
         return null;
     }
@@ -71,11 +65,6 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     public String ssdList(SsdFilter ssdFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailCase(UUID id, Model model) {
         return null;
     }
 

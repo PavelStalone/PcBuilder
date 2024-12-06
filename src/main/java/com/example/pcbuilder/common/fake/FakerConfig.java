@@ -1,6 +1,6 @@
 package com.example.pcbuilder.common.fake;
 
-import com.example.pcbuilder.data.model.UserDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import com.github.javafaker.Faker;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
