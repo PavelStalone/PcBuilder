@@ -4,6 +4,7 @@ import java.util.List;
 
 public class FakeData {
 
+    // region CpuModels
     public static List<String> cpuModels = List.of(
             "Intel Core i9-13900K",
             "AMD Ryzen 9 7950X",
@@ -36,7 +37,9 @@ public class FakeData {
             "Intel Core i5-9600K",
             "AMD Ryzen 3 3300X"
     );
+    // endregion
 
+    // region CpuSockets
     public static List<String> cpuSockets = List.of(
             "LGA 1700",
             "AM5",
@@ -59,13 +62,17 @@ public class FakeData {
             "Socket A (462)",
             "LGA 3647"
     );
+    // endregion
 
+    // region RamType
     public static List<String> ramType = List.of(
             "DDR5",
             "DDR4",
             "DDR3"
     );
+    // endregion
 
+    // region SsdModels
     public static List<String> ssdModels = List.of(
             "Samsung 990 PRO",
             "WD Black SN850X",
@@ -88,7 +95,9 @@ public class FakeData {
             "Silicon Power XD80",
             "Mushkin Pilot-E"
     );
+    // endregion
 
+    // region SsdConnectors
     public static List<String> ssdConnectors = List.of(
             "M.2 NVMe",
             "M.2 SATA",
@@ -98,7 +107,9 @@ public class FakeData {
             "PCIe",
             "SAS"
     );
+    // endregion
 
+    // region RamModels
     public static List<String> ramModels = List.of(
             "G.Skill Trident Z5 RGB",
             "Corsair Dominator Platinum RGB",
@@ -121,7 +132,9 @@ public class FakeData {
             "OLOy Warhawk RGB",
             "Silicon Power XPOWER Turbine"
     );
+    // endregion
 
+    // region RamFormFactors
     public static List<String> ramFormFactors = List.of(
             "DIMM",
             "SO-DIMM",
@@ -131,7 +144,9 @@ public class FakeData {
             "FB-DIMM",
             "Mini-DIMM"
     );
+    // endregion
 
+    // region PowerModels
     public static List<String> powerModels = List.of(
             "Corsair HX1200i Platinum",
             "be quiet! Dark Power Pro 12",
@@ -154,7 +169,9 @@ public class FakeData {
             "Super Flower Leadex III",
             "Lian Li SP750"
     );
+    // endregion
 
+    // region PowerFormFactor
     public static List<String> powerFormFactors = List.of(
             "ATX",
             "SFX",
@@ -166,7 +183,9 @@ public class FakeData {
             "LFX",
             "CFX"
     );
+    // endregion
 
+    // region MotherboardModels
     public static List<String> motherboardModels = List.of(
             "ASUS ROG Maximus Z790 Hero",
             "MSI MEG Z790 ACE",
@@ -189,7 +208,9 @@ public class FakeData {
             "ASRock X670E Steel Legend",
             "ASUS ROG STRIX Z790-A GAMING"
     );
+    // endregion
 
+    // region MotherboardFormFactors
     public static List<String> motherboardFormFactors = List.of(
             "ATX",
             "Micro-ATX",
@@ -202,8 +223,10 @@ public class FakeData {
             "SSI-CEB",
             "Mini-STX"
     );
+    // endregion
 
-    public static List<String> graphicsInterfaces = List.of(
+    // region GpuInterfaces
+    public static List<String> gpuInterfaces = List.of(
             "PCIe 5.0 x16",
             "PCIe 5.0 x8",
             "PCIe 4.0 x16",
@@ -211,7 +234,9 @@ public class FakeData {
             "PCIe 3.0 x16",
             "PCIe 3.0 x8"
     );
+    // endregion
 
+    // region HddModels
     public static List<String> hddModels = List.of(
             "Western Digital Blue",
             "Seagate Barracuda",
@@ -234,7 +259,9 @@ public class FakeData {
             "Western Digital Black",
             "Toshiba N300"
     );
+    // endregion
 
+    // region HddInterfaces
     public static List<String> hddInterfaces = List.of(
             "SATA III",
             "SATA II",
@@ -251,7 +278,9 @@ public class FakeData {
             "SFF",
             "miniSATA"
     );
+    // endregion
 
+    // region GpuModels
     public static List<String> gpuModels = List.of(
             "NVIDIA GeForce RTX 4090",
             "NVIDIA GeForce RTX 4080",
@@ -274,7 +303,9 @@ public class FakeData {
             "Intel Arc A380",
             "Intel Arc A310"
     );
+    // endregion
 
+    // region GpuMemoryTypes
     public static List<String> gpuMemoryTypes = List.of(
             "GDDR6X",
             "GDDR6",
@@ -287,7 +318,9 @@ public class FakeData {
             "HBM2",
             "HBM"
     );
+    // endregion
 
+    // region CaseModels
     public static List<String> caseModels = List.of(
             "NZXT H510",
             "Phanteks Eclipse P400A",
@@ -310,4 +343,5 @@ public class FakeData {
             "Fractal Design Define 7",
             "Corsair 7000D Airflow"
     );
+    // endregion
 }

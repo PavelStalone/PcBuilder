@@ -107,7 +107,7 @@ public class FakerConfig {
             motherBoard.setGraphicSlotsCounts(faker.random().nextInt(1, 3));
             motherBoard.setProcessorSocket(oneOf(cpuSockets));
             motherBoard.setMemoryFormFactor(oneOf(ramFormFactors));
-            motherBoard.setGraphicsSlotType(oneOf(graphicsInterfaces));
+            motherBoard.setGraphicsSlotType(oneOf(gpuInterfaces));
 
             return motherBoard;
         };
@@ -140,7 +140,7 @@ public class FakerConfig {
             gpu.setFreq(faker.random().nextInt(1500, 5000));
             gpu.setMinPower(faker.random().nextInt(100, 400));
             gpu.setModel(oneOf(gpuModels));
-            gpu.setSlotType(oneOf(graphicsInterfaces));
+            gpu.setSlotType(oneOf(gpuInterfaces));
             gpu.setMemoryType(oneOf(gpuMemoryTypes));
             gpu.setMemoryCapacity(faker.random().nextInt(1, 32));
 

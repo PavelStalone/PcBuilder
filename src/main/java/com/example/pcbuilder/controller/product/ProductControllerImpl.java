@@ -2,17 +2,13 @@ package com.example.pcbuilder.controller.product;
 
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.ProductController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.*;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.ProductListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.ProductViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/product")
@@ -36,66 +32,6 @@ public class ProductControllerImpl implements ProductController {
         model.addAttribute("model", productList);
 
         return "product/product-list";
-    }
-
-    @Override
-    public String gpuList(GpuFilter gpuFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String hddList(HddFilter hddFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String motherboardList(MotherboardFilter motherboardFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String powerList(PowerFilter powerFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String ramList(RamFilter ramFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String ssdList(SsdFilter ssdFilter, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailGpu(UUID id, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailHdd(UUID id, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailMotherboard(UUID id, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailPower(UUID id, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailRam(UUID id, Model model) {
-        return null;
-    }
-
-    @Override
-    public String detailSsd(UUID id, Model model) {
-        return null;
     }
 
     @Override

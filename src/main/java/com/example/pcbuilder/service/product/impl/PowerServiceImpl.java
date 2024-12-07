@@ -2,11 +2,11 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
-import com.example.pcbuilder.domain.entity.product.Case;
-import com.example.pcbuilder.domain.repository.product.contract.CaseRepository;
-import com.example.pcbuilder.service.product.contract.CaseService;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CaseFilter;
+import com.example.pcbuilder.domain.entity.product.PowerUnit;
+import com.example.pcbuilder.domain.repository.product.contract.PowerRepository;
+import com.example.pcbuilder.service.product.contract.PowerService;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.PowerDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.PowerFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +22,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CaseServiceImpl implements CaseService {
+public class PowerServiceImpl implements PowerService {
 
-    private final CaseRepository repository;
-    private final TypeMap<CaseDto, Case> fromDto = Mapper.createTypeMap(CaseDto.class, Case.class);
-    private final TypeMap<Case, CaseDto> fromEntity = Mapper.createTypeMap(Case.class, CaseDto.class);
+    private final PowerRepository repository;
+    private final TypeMap<PowerDto, PowerUnit> fromDto = Mapper.createTypeMap(PowerDto.class, PowerUnit.class);
+    private final TypeMap<PowerUnit, PowerDto> fromEntity = Mapper.createTypeMap(PowerUnit.class, PowerDto.class);
 
     @Autowired
-    public CaseServiceImpl(CaseRepository repository) {
+    public PowerServiceImpl(PowerRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UUID create(CaseDto dto) {
+    public UUID create(PowerDto dto) {
         Log.d("create called - dto: " + dto);
 
         return repository.create(fromDto.map(dto)).getId();
     }
 
     @Override
-    public Optional<CaseDto> getById(UUID id) {
+    public Optional<PowerDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
         return repository.getById(id)
@@ -56,14 +56,14 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public Page<CaseDto> getAllByFilter(CaseFilter filter) {
+    public Page<PowerDto> getAllByFilter(PowerFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
 
         if (filter.isDescCost() != null && filter.isDescCost()) sortByCost = sortByCost.descending();
 
-        Specification<Case> specification = (root, query, criteriaBuilder) -> {
+        Specification<PowerUnit> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // region Model
@@ -89,6 +89,23 @@ public class CaseServiceImpl implements CaseService {
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
                                     root.get("cost"),
+                                    it
+                            )
+                    ));
+            // endregion
+
+            // region Power
+            Optional.ofNullable(filter.powerLower())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.greaterThanOrEqualTo(
+                                    root.get("power"),
+                                    it
+                            )
+                    ));
+            Optional.ofNullable(filter.powerUpper())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.lessThanOrEqualTo(
+                                    root.get("power"),
                                     it
                             )
                     ));

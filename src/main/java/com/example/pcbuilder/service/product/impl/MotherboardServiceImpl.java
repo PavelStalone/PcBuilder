@@ -2,12 +2,11 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
-import com.example.pcbuilder.common.validation.ValidationUtil;
-import com.example.pcbuilder.domain.entity.product.Processor;
-import com.example.pcbuilder.domain.repository.product.contract.CpuRepository;
-import com.example.pcbuilder.service.product.contract.CpuService;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CpuFilter;
+import com.example.pcbuilder.domain.entity.product.Motherboard;
+import com.example.pcbuilder.domain.repository.product.contract.MotherboardRepository;
+import com.example.pcbuilder.service.product.contract.MotherboardService;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.MotherboardDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.MotherboardFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,31 +22,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CpuServiceImpl implements CpuService {
+public class MotherboardServiceImpl implements MotherboardService {
 
-    private final CpuRepository repository;
-    private final ValidationUtil validationUtil;
-    private final TypeMap<CpuDto, Processor> fromDto = Mapper.createTypeMap(CpuDto.class, Processor.class);
-    private final TypeMap<Processor, CpuDto> fromEntity = Mapper.createTypeMap(Processor.class, CpuDto.class);
+    private final MotherboardRepository repository;
+    private final TypeMap<MotherboardDto, Motherboard> fromDto = Mapper.createTypeMap(MotherboardDto.class, Motherboard.class);
+    private final TypeMap<Motherboard, MotherboardDto> fromEntity = Mapper.createTypeMap(Motherboard.class, MotherboardDto.class);
 
     @Autowired
-    public CpuServiceImpl(
-            CpuRepository repository,
-            ValidationUtil validationUtil
-    ) {
+    public MotherboardServiceImpl(MotherboardRepository repository) {
         this.repository = repository;
-        this.validationUtil = validationUtil;
     }
 
     @Override
-    public UUID create(CpuDto cpu) {
-        Log.d("create called - dto: " + cpu);
+    public UUID create(MotherboardDto dto) {
+        Log.d("create called - dto: " + dto);
 
-        return repository.create(fromDto.map(cpu)).getId();
+        return repository.create(fromDto.map(dto)).getId();
     }
 
     @Override
-    public Optional<CpuDto> getById(UUID id) {
+    public Optional<MotherboardDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
         return repository.getById(id)
@@ -62,14 +56,14 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
-    public Page<CpuDto> getAllByFilter(CpuFilter filter) {
-        Log.d("getAllByFilter called - cpuFilter: " + filter);
+    public Page<MotherboardDto> getAllByFilter(MotherboardFilter filter) {
+        Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
 
         if (filter.isDescCost() != null && filter.isDescCost()) sortByCost = sortByCost.descending();
 
-        Specification<Processor> specification = (root, query, criteriaBuilder) -> {
+        Specification<Motherboard> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // region Model
@@ -100,81 +94,69 @@ public class CpuServiceImpl implements CpuService {
                     ));
             // endregion
 
-            // region Year
-            Optional.ofNullable(filter.yearLower())
+            // region MemorySlots
+            Optional.ofNullable(filter.memorySlotsLower())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.greaterThanOrEqualTo(
-                                    root.get("year"),
+                                    root.get("memorySlotsCounts"),
                                     it
                             )
                     ));
-            Optional.ofNullable(filter.yearUpper())
+            Optional.ofNullable(filter.memorySlotsUpper())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
-                                    root.get("year"),
+                                    root.get("memorySlotsCounts"),
                                     it
                             )
                     ));
             // endregion
 
-            // region Core
-            Optional.ofNullable(filter.coreLower())
+            // region MemoryFrequency
+            Optional.ofNullable(filter.maxMemoryFreqLower())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.greaterThanOrEqualTo(
-                                    root.get("cores"),
+                                    root.get("maxMemoryFreq"),
                                     it
                             )
                     ));
-            Optional.ofNullable(filter.coreUpper())
+            Optional.ofNullable(filter.maxMemoryFreqUpper())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
-                                    root.get("cores"),
+                                    root.get("maxMemoryFreq"),
                                     it
                             )
                     ));
             // endregion
 
-            // region Frequency
-            Optional.ofNullable(filter.freqLower())
+            // region GpuSlots
+            Optional.ofNullable(filter.graphicsSlotsLower())
                     .ifPresent((it) -> predicates.add(
-                            criteriaBuilder.or(
-                                    criteriaBuilder.greaterThanOrEqualTo(
-                                            root.get("baseFreq"),
-                                            it
-                                    ),
-                                    criteriaBuilder.greaterThanOrEqualTo(
-                                            root.get("maxFreq"),
-                                            it
-                                    )
+                            criteriaBuilder.greaterThanOrEqualTo(
+                                    root.get("graphicSlotsCounts"),
+                                    it
                             )
                     ));
-            Optional.ofNullable(filter.freqUpper())
+            Optional.ofNullable(filter.graphicsSlotsUpper())
                     .ifPresent((it) -> predicates.add(
-                            criteriaBuilder.or(
-                                    criteriaBuilder.lessThanOrEqualTo(
-                                            root.get("baseFreq"),
-                                            it
-                                    ),
-                                    criteriaBuilder.lessThanOrEqualTo(
-                                            root.get("maxFreq"),
-                                            it
-                                    )
+                            criteriaBuilder.lessThanOrEqualTo(
+                                    root.get("graphicSlotsCounts"),
+                                    it
                             )
                     ));
             // endregion
 
-            // region Thread
-            Optional.ofNullable(filter.threadLower())
+            // region MemoryCapacity
+            Optional.ofNullable(filter.maxMemoryCapacityLower())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.greaterThanOrEqualTo(
-                                    root.get("threads"),
+                                    root.get("maxMemoryCapacity"),
                                     it
                             )
                     ));
-            Optional.ofNullable(filter.threadUpper())
+            Optional.ofNullable(filter.maxMemoryCapacityUpper())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
-                                    root.get("threads"),
+                                    root.get("maxMemoryCapacity"),
                                     it
                             )
                     ));

@@ -2,11 +2,11 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
-import com.example.pcbuilder.domain.entity.product.Case;
-import com.example.pcbuilder.domain.repository.product.contract.CaseRepository;
-import com.example.pcbuilder.service.product.contract.CaseService;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CaseFilter;
+import com.example.pcbuilder.domain.entity.product.RAM;
+import com.example.pcbuilder.domain.repository.product.contract.RamRepository;
+import com.example.pcbuilder.service.product.contract.RamService;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.RamDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.RamFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +22,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CaseServiceImpl implements CaseService {
+public class RamServiceImpl implements RamService {
 
-    private final CaseRepository repository;
-    private final TypeMap<CaseDto, Case> fromDto = Mapper.createTypeMap(CaseDto.class, Case.class);
-    private final TypeMap<Case, CaseDto> fromEntity = Mapper.createTypeMap(Case.class, CaseDto.class);
+    private final RamRepository repository;
+    private final TypeMap<RamDto, RAM> fromDto = Mapper.createTypeMap(RamDto.class, RAM.class);
+    private final TypeMap<RAM, RamDto> fromEntity = Mapper.createTypeMap(RAM.class, RamDto.class);
 
     @Autowired
-    public CaseServiceImpl(CaseRepository repository) {
+    public RamServiceImpl(RamRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UUID create(CaseDto dto) {
+    public UUID create(RamDto dto) {
         Log.d("create called - dto: " + dto);
 
         return repository.create(fromDto.map(dto)).getId();
     }
 
     @Override
-    public Optional<CaseDto> getById(UUID id) {
+    public Optional<RamDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
         return repository.getById(id)
@@ -56,14 +56,14 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public Page<CaseDto> getAllByFilter(CaseFilter filter) {
+    public Page<RamDto> getAllByFilter(RamFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
 
         if (filter.isDescCost() != null && filter.isDescCost()) sortByCost = sortByCost.descending();
 
-        Specification<Case> specification = (root, query, criteriaBuilder) -> {
+        Specification<RAM> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // region Model
@@ -89,6 +89,40 @@ public class CaseServiceImpl implements CaseService {
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
                                     root.get("cost"),
+                                    it
+                            )
+                    ));
+            // endregion
+
+            // region Frequency
+            Optional.ofNullable(filter.freqLower())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.greaterThanOrEqualTo(
+                                    root.get("freq"),
+                                    it
+                            )
+                    ));
+            Optional.ofNullable(filter.freqUpper())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.lessThanOrEqualTo(
+                                    root.get("freq"),
+                                    it
+                            )
+                    ));
+            // endregion
+
+            // region Memory
+            Optional.ofNullable(filter.memoryLower())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.greaterThanOrEqualTo(
+                                    root.get("memoryCapacity"),
+                                    it
+                            )
+                    ));
+            Optional.ofNullable(filter.memoryUpper())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.lessThanOrEqualTo(
+                                    root.get("memoryCapacity"),
                                     it
                             )
                     ));

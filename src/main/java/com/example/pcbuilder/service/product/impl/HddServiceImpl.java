@@ -2,12 +2,16 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
-import com.example.pcbuilder.common.validation.ValidationUtil;
-import com.example.pcbuilder.domain.entity.product.Processor;
-import com.example.pcbuilder.domain.repository.product.contract.CpuRepository;
-import com.example.pcbuilder.service.product.contract.CpuService;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CpuFilter;
+import com.example.pcbuilder.domain.entity.product.Case;
+import com.example.pcbuilder.domain.entity.product.HDD;
+import com.example.pcbuilder.domain.repository.product.contract.CaseRepository;
+import com.example.pcbuilder.domain.repository.product.contract.HddRepository;
+import com.example.pcbuilder.service.product.contract.CaseService;
+import com.example.pcbuilder.service.product.contract.HddService;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CaseFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.HddFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,31 +27,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CpuServiceImpl implements CpuService {
+public class HddServiceImpl implements HddService {
 
-    private final CpuRepository repository;
-    private final ValidationUtil validationUtil;
-    private final TypeMap<CpuDto, Processor> fromDto = Mapper.createTypeMap(CpuDto.class, Processor.class);
-    private final TypeMap<Processor, CpuDto> fromEntity = Mapper.createTypeMap(Processor.class, CpuDto.class);
+    private final HddRepository repository;
+    private final TypeMap<HddDto, HDD> fromDto = Mapper.createTypeMap(HddDto.class, HDD.class);
+    private final TypeMap<HDD, HddDto> fromEntity = Mapper.createTypeMap(HDD.class, HddDto.class);
 
     @Autowired
-    public CpuServiceImpl(
-            CpuRepository repository,
-            ValidationUtil validationUtil
-    ) {
+    public HddServiceImpl(HddRepository repository) {
         this.repository = repository;
-        this.validationUtil = validationUtil;
     }
 
     @Override
-    public UUID create(CpuDto cpu) {
-        Log.d("create called - dto: " + cpu);
+    public UUID create(HddDto dto) {
+        Log.d("create called - dto: " + dto);
 
-        return repository.create(fromDto.map(cpu)).getId();
+        return repository.create(fromDto.map(dto)).getId();
     }
 
     @Override
-    public Optional<CpuDto> getById(UUID id) {
+    public Optional<HddDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
         return repository.getById(id)
@@ -62,14 +61,14 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
-    public Page<CpuDto> getAllByFilter(CpuFilter filter) {
-        Log.d("getAllByFilter called - cpuFilter: " + filter);
+    public Page<HddDto> getAllByFilter(HddFilter filter) {
+        Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
 
         if (filter.isDescCost() != null && filter.isDescCost()) sortByCost = sortByCost.descending();
 
-        Specification<Processor> specification = (root, query, criteriaBuilder) -> {
+        Specification<HDD> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // region Model
@@ -100,81 +99,52 @@ public class CpuServiceImpl implements CpuService {
                     ));
             // endregion
 
-            // region Year
-            Optional.ofNullable(filter.yearLower())
+            // region Power
+            Optional.ofNullable(filter.powerLower())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.greaterThanOrEqualTo(
-                                    root.get("year"),
+                                    root.get("maxPower"),
                                     it
                             )
                     ));
-            Optional.ofNullable(filter.yearUpper())
+            Optional.ofNullable(filter.powerUpper())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
-                                    root.get("year"),
+                                    root.get("maxPower"),
                                     it
                             )
                     ));
             // endregion
 
-            // region Core
-            Optional.ofNullable(filter.coreLower())
+            // region Memory
+            Optional.ofNullable(filter.memoryLower())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.greaterThanOrEqualTo(
-                                    root.get("cores"),
+                                    root.get("memoryCapacity"),
                                     it
                             )
                     ));
-            Optional.ofNullable(filter.coreUpper())
+            Optional.ofNullable(filter.memoryUpper())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
-                                    root.get("cores"),
+                                    root.get("memoryCapacity"),
                                     it
                             )
                     ));
             // endregion
 
-            // region Frequency
-            Optional.ofNullable(filter.freqLower())
-                    .ifPresent((it) -> predicates.add(
-                            criteriaBuilder.or(
-                                    criteriaBuilder.greaterThanOrEqualTo(
-                                            root.get("baseFreq"),
-                                            it
-                                    ),
-                                    criteriaBuilder.greaterThanOrEqualTo(
-                                            root.get("maxFreq"),
-                                            it
-                                    )
-                            )
-                    ));
-            Optional.ofNullable(filter.freqUpper())
-                    .ifPresent((it) -> predicates.add(
-                            criteriaBuilder.or(
-                                    criteriaBuilder.lessThanOrEqualTo(
-                                            root.get("baseFreq"),
-                                            it
-                                    ),
-                                    criteriaBuilder.lessThanOrEqualTo(
-                                            root.get("maxFreq"),
-                                            it
-                                    )
-                            )
-                    ));
-            // endregion
-
-            // region Thread
-            Optional.ofNullable(filter.threadLower())
+            // region Rotation
+            Optional.ofNullable(filter.rotationLower())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.greaterThanOrEqualTo(
-                                    root.get("threads"),
+                                    root.get("rotationSpeed"),
                                     it
                             )
                     ));
-            Optional.ofNullable(filter.threadUpper())
+            Optional.ofNullable(filter.rotationUpper())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.lessThanOrEqualTo(
-                                    root.get("threads"),
+                                    root.get("rotationSpeed"),
                                     it
                             )
                     ));
