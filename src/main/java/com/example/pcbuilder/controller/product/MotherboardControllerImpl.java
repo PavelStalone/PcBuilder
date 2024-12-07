@@ -50,12 +50,12 @@ public class MotherboardControllerImpl implements MotherboardController {
                 filter.isDescCost(),
                 filter.costLower(),
                 filter.costUpper(),
-                filter.maxMemoryFreqLower(),
-                filter.maxMemoryFreqUpper(),
                 filter.memorySlotsLower(),
                 filter.memorySlotsUpper(),
                 filter.maxMemoryFreqUpper(),
                 filter.maxMemoryFreqUpper(),
+                filter.graphicsSlotsLower(),
+                filter.graphicsSlotsUpper(),
                 filter.maxMemoryCapacityLower(),
                 filter.maxMemoryCapacityUpper()
         );

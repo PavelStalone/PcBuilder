@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Информация о блоке питания</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="m-0" th:text="${model.power.model}">Модель блока питания</h4>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="badge bg-light text-primary"
+                                  th:text="${model.power.cost} + ' RUB'">Цена</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Основные характеристики -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Характеристики</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Мощность</div>
+                                        <div class="fw-bold" th:text="${model.power.power} + ' Вт'">750 Вт</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Форм-фактор</div>
+                                        <div class="fw-bold" th:text="${model.power.formFactor}">ATX</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительная информация -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Дополнительно</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Идентификатор</div>
+                                        <div class="small text-muted" th:text="${model.power.id}">ID</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a th:href="@{/product/power/{id}/edit(id=${model.power.id})}" class="btn btn-primary">
+                                    Редактировать
+                                </a>
+                                <a th:href="@{/product/power/{id}/delete(id=${model.power.id})}" class="btn btn-danger">
+                                    Удалить
+                                </a>
+                            </div>
+                            <div class="text-muted small">
+                                Информация актуальна на
+                                <span th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}">дату</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

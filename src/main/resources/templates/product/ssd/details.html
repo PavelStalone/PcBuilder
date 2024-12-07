@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Информация о SSD накопителе</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="m-0" th:text="${model.ssd.model}">Модель SSD</h4>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="badge bg-light text-primary"
+                                  th:text="${model.ssd.cost} + ' RUB'">Цена</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Характеристики памяти -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Характеристики памяти</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Объем памяти</div>
+                                        <div class="fw-bold" th:text="${model.ssd.memoryCapacity} + ' ГБ'">512 ГБ</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Ресурс записи (TBW)</div>
+                                        <div class="fw-bold" th:text="${model.ssd.tbw} + ' ТБ'">300 ТБ</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Скорость -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Скорость</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Скорость чтения</div>
+                                        <div class="fw-bold" th:text="${model.ssd.maxReadSpeed} + ' МБ/с'">3500 МБ/с</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Скорость записи</div>
+                                        <div class="fw-bold" th:text="${model.ssd.maxWriteSpeed} + ' МБ/с'">2700 МБ/с</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Интерфейс и питание -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Интерфейс и питание</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Тип интерфейса</div>
+                                        <div class="fw-bold" th:text="${model.ssd.interfaceType}">PCIe 4.0 x4</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Макс. потребляемая мощность</div>
+                                        <div class="fw-bold" th:text="${model.ssd.maxPower} + ' Вт'">7 Вт</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительная информация -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Дополнительно</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Идентификатор</div>
+                                        <div class="small text-muted" th:text="${model.ssd.id}">ID</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a th:href="@{/product/ssd/{id}/edit(id=${model.ssd.id})}" class="btn btn-primary">
+                                    Редактировать
+                                </a>
+                                <a th:href="@{/product/ssd/{id}/delete(id=${model.ssd.id})}" class="btn btn-danger">
+                                    Удалить
+                                </a>
+                            </div>
+                            <div class="text-muted small">
+                                Информация актуальна на
+                                <span th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}">дату</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

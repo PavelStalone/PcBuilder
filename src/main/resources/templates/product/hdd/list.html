@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-9 align-self-center pt-5">
-                <h2 class="text-center text-dark mt-5">Список корпусов</h2>
+                <h2 class="text-center text-dark mt-5">Список жестких дисков</h2>
 
                 <div class="container-fluid">
                     <div class="row">
@@ -19,7 +19,7 @@
                                     <h5 class="card-title mb-0">Фильтрация</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form th:action="@{/product/case}" method="get">
+                                    <form th:action="@{/product/hdd}" method="get">
                                         <!-- Поиск по модели -->
                                         <div class="mb-3">
                                             <label for="model" class="form-label">Модель</label>
@@ -49,40 +49,77 @@
                                             </div>
                                         </div>
 
+                                        <!-- Диапазон мощности -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Мощность (Вт)</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control" name="powerLower"
+                                                       placeholder="От" th:value="${filter?.powerLower}">
+                                                <input type="number" class="form-control" name="powerUpper"
+                                                       placeholder="До" th:value="${filter?.powerUpper}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Диапазон объема памяти -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Объем памяти (ГБ)</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control" name="memoryLower"
+                                                       placeholder="От" th:value="${filter?.memoryLower}">
+                                                <input type="number" class="form-control" name="memoryUpper"
+                                                       placeholder="До" th:value="${filter?.memoryUpper}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Диапазон скорости вращения -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Скорость вращения (об/мин)</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control" name="rotationLower"
+                                                       placeholder="От" th:value="${filter?.rotationLower}">
+                                                <input type="number" class="form-control" name="rotationUpper"
+                                                       placeholder="До" th:value="${filter?.rotationUpper}">
+                                            </div>
+                                        </div>
+
                                         <!-- Кнопки управления -->
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Применить</button>
-                                            <a href="/product/case" class="btn btn-outline-secondary">Сбросить</a>
+                                            <a href="/product/hdd" class="btn btn-outline-secondary">Сбросить</a>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Список корпусов -->
+                        <!-- Список жестких дисков -->
                         <div class="col-md-9">
-                            <div th:if="${#lists.isEmpty(model.caseList)}" class="alert alert-info">
-                                Корпуса не найдены
+                            <div th:if="${#lists.isEmpty(model.hddList)}" class="alert alert-info">
+                                Жесткие диски не найдены
                             </div>
 
-                            <div th:if="${not #lists.isEmpty(model.caseList)}">
-                                <div th:each="case : ${model.caseList}" class="card shadow-sm mb-2">
+                            <div th:if="${not #lists.isEmpty(model.hddList)}">
+                                <div th:each="hdd : ${model.hddList}" class="card shadow-sm mb-2">
                                     <div class="card-body p-2">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h5 class="m-0" th:text="${case.model}">Модель</h5>
-                                            <span class="badge bg-primary" th:text="${case.cost} + ' RUB'">Цена</span>
+                                            <h5 class="m-0" th:text="${hdd.model}">Модель</h5>
+                                            <span class="badge bg-primary" th:text="${hdd.cost} + ' RUB'">Цена</span>
                                         </div>
 
                                         <div class="row g-2">
-                                            <div class="col-12">
-                                                <small class="text-muted">Форм-фактор блока питания:</small>
-                                                <span class="ms-1" th:text="${case.powerFactor}">Форм-фактор</span>
+                                            <div class="col-6">
+                                                <small class="text-muted">Объем памяти:</small>
+                                                <span class="ms-1" th:text="${hdd.memoryCapacity} + ' ГБ'">Память</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="text-muted">Скорость вращения:</small>
+                                                <span class="ms-1" th:text="${hdd.rotationSpeed} + ' об/мин'">Скорость</span>
                                             </div>
                                         </div>
 
                                         <div class="mt-2 text-end">
                                             <a class="btn btn-primary btn-sm"
-                                               th:href="@{/product/case/{id}(id=${case.id})}">
+                                               th:href="@{/product/hdd/{id}(id=${hdd.id})}">
                                                 Подробнее
                                             </a>
                                         </div>
@@ -99,13 +136,19 @@
                             th:each="pageNumber : ${#numbers.sequence(1, model.totalPages)}"
                             th:classappend="${pageNumber == filter.page} ? 'active'">
                             <a class="page-link"
-                               th:href="@{/product/case(
+                               th:href="@{/product/hdd(
                                    page=${pageNumber},
                                    size=${filter.size},
                                    model=${filter.model},
                                    isDescCost=${filter.isDescCost},
                                    costLower=${filter.costLower},
-                                   costUpper=${filter.costUpper}
+                                   costUpper=${filter.costUpper},
+                                   powerLower=${filter.powerLower},
+                                   powerUpper=${filter.powerUpper},
+                                   memoryLower=${filter.memoryLower},
+                                   memoryUpper=${filter.memoryUpper},
+                                   rotationLower=${filter.rotationLower},
+                                   rotationUpper=${filter.rotationUpper}
                                )}"
                                th:text="${pageNumber}">1</a>
                         </li>
@@ -113,7 +156,7 @@
                 </nav>
 
                 <div class="mt-4">
-                    <a class="btn btn-success" th:href="@{/product/case/create}">Добавить корпус</a>
+                    <a class="btn btn-success" th:href="@{/product/hdd/create}">Добавить жесткий диск</a>
                 </div>
             </div>
         </div>

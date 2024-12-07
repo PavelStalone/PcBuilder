@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Информация о видеокарте</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="m-0" th:text="${model.gpu.model}">Модель видеокарты</h4>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="badge bg-light text-primary"
+                                  th:text="${model.gpu.cost} + ' RUB'">Цена</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Производительность -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Производительность</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Частота ядра</div>
+                                        <div class="fw-bold" th:text="${model.gpu.freq} + ' МГц'">Частота</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Минимальная мощность БП</div>
+                                        <div class="fw-bold" th:text="${model.gpu.minPower} + ' Вт'">Мощность</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Память -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Память</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Объем памяти</div>
+                                        <div class="fw-bold" th:text="${model.gpu.memoryCapacity} + ' ГБ'">Объем</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Тип памяти</div>
+                                        <div class="fw-bold" th:text="${model.gpu.memoryType}">Тип памяти</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Интерфейс -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Интерфейс</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Тип слота</div>
+                                        <div class="fw-bold" th:text="${model.gpu.slotType}">Слот</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительная информация -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Дополнительно</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Идентификатор</div>
+                                        <div class="small text-muted" th:text="${model.gpu.id}">ID</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a th:href="@{/product/gpu/{id}/edit(id=${model.gpu.id})}" class="btn btn-primary">
+                                    Редактировать
+                                </a>
+                                <a th:href="@{/product/gpu/{id}/delete(id=${model.gpu.id})}" class="btn btn-danger">
+                                    Удалить
+                                </a>
+                            </div>
+                            <div class="text-muted small">
+                                Информация актуальна на
+                                <span th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}">дату</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

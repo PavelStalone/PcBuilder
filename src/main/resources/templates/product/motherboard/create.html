@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <h1 class="text-center mb-4">Добавление материнской платы</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/product/motherboard/create}" method="post" th:object="${form}">
+                            <!-- Основная информация -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Основная информация</h5>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="model" class="form-label">Модель</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="model"
+                                           th:field="*{model}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('model')}"
+                                           th:errors="*{model}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="price" class="form-label">Цена</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="price"
+                                           th:field="*{cost}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('cost')}"
+                                           th:errors="*{cost}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Форм-факторы и сокеты -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Форм-факторы и сокеты</h5>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="formFactor" class="form-label">Форм-фактор платы</label>
+                                    <select class="form-select"
+                                            id="formFactor"
+                                            th:field="*{formFactor}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите форм-фактор</option>
+                                        <option th:each="factor : ${model.formFactors}"
+                                                th:value="${factor}"
+                                                th:text="${factor}">ATX</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('formFactor')}"
+                                           th:errors="*{formFactor}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="processorSocket" class="form-label">Сокет процессора</label>
+                                    <select class="form-select"
+                                            id="processorSocket"
+                                            th:field="*{processorSocket}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите сокет</option>
+                                        <option th:each="socket : ${model.cpuSockets}"
+                                                th:value="${socket}"
+                                                th:text="${socket}">AM4</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('processorSocket')}"
+                                           th:errors="*{processorSocket}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="memoryFormFactor" class="form-label">Форм-фактор памяти</label>
+                                    <select class="form-select"
+                                            id="memoryFormFactor"
+                                            th:field="*{memoryFormFactor}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите форм-фактор</option>
+                                        <option th:each="factor : ${model.memoryFactors}"
+                                                th:value="${factor}"
+                                                th:text="${factor}">DIMM</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('memoryFormFactor')}"
+                                           th:errors="*{memoryFormFactor}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Память -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Память</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="memoryType" class="form-label">Тип памяти</label>
+                                    <select class="form-select"
+                                            id="memoryType"
+                                            th:field="*{memoryType}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите тип памяти</option>
+                                        <option th:each="type : ${model.memoryTypes}"
+                                                th:value="${type}"
+                                                th:text="${type}">DDR4</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('memoryType')}"
+                                           th:errors="*{memoryType}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxMemoryFreq" class="form-label">Макс. частота памяти (МГц)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxMemoryFreq"
+                                           th:field="*{maxMemoryFreq}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxMemoryFreq')}"
+                                           th:errors="*{maxMemoryFreq}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxMemoryCapacity" class="form-label">Макс. объем памяти (ГБ)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxMemoryCapacity"
+                                           th:field="*{maxMemoryCapacity}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxMemoryCapacity')}"
+                                           th:errors="*{maxMemoryCapacity}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="memorySlotsCounts" class="form-label">Количество слотов памяти</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="memorySlotsCounts"
+                                           th:field="*{memorySlotsCounts}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('memorySlotsCounts')}"
+                                           th:errors="*{memorySlotsCounts}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Видеокарты -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Видеокарты</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="graphicsSlotType" class="form-label">Тип слота видеокарты</label>
+                                    <select class="form-select"
+                                            id="graphicsSlotType"
+                                            th:field="*{graphicsSlotType}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите тип слота</option>
+                                        <option th:each="type : ${model.gpuSlotTypes}"
+                                                th:value="${type}"
+                                                th:text="${type}">PCIe</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('graphicsSlotType')}"
+                                           th:errors="*{graphicsSlotType}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="graphicSlotsCounts" class="form-label">Количество слотов видеокарт</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="graphicSlotsCounts"
+                                           th:field="*{graphicSlotsCounts}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('graphicSlotsCounts')}"
+                                           th:errors="*{graphicSlotsCounts}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/product/motherboard}" class="btn btn-outline-secondary">
+                                    Отмена
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Добавить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

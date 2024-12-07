@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Информация о материнской плате</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="m-0" th:text="${model.motherboard.model}">Модель материнской платы</h4>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="badge bg-light text-primary"
+                                  th:text="${model.motherboard.cost} + ' RUB'">Цена</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Форм-факторы -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Форм-факторы</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Форм-фактор платы</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.formFactor}">ATX</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Форм-фактор памяти</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.memoryFormFactor}">DIMM</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Сокет процессора</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.processorSocket}">AM4</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Память -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Память</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Тип памяти</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.memoryType}">DDR4</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Максимальная частота памяти</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.maxMemoryFreq} + ' МГц'">3200 МГц</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Максимальный объем памяти</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.maxMemoryCapacity} + ' ГБ'">128 ГБ</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Количество слотов памяти</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.memorySlotsCounts}">4</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Видеокарты -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Видеокарты</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Тип слота видеокарты</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.graphicsSlotType}">PCIe</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="text-muted">Количество слотов видеокарт</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.graphicSlotsCounts}">2</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительная информация -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="border-bottom pb-2">Дополнительно</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="text-muted">Идентификатор</div>
+                                        <div class="small text-muted" th:text="${model.motherboard.id}">ID</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a th:href="@{/product/motherboard/{id}/edit(id=${model.motherboard.id})}" class="btn btn-primary">
+                                    Редактировать
+                                </a>
+                                <a th:href="@{/product/motherboard/{id}/delete(id=${model.motherboard.id})}" class="btn btn-danger">
+                                    Удалить
+                                </a>
+                            </div>
+                            <div class="text-muted small">
+                                Информация актуальна на
+                                <span th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}">дату</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

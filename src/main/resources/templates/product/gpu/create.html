@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <h1 class="text-center mb-4">Добавление видеокарты</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/product/gpu/create}" method="post" th:object="${form}">
+                            <!-- Основная информация -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Основная информация</h5>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="model" class="form-label">Модель</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="model"
+                                           th:field="*{model}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('model')}"
+                                           th:errors="*{model}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="price" class="form-label">Цена</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="price"
+                                           th:field="*{cost}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('cost')}"
+                                           th:errors="*{cost}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Характеристики -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Характеристики</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="freq" class="form-label">Частота (МГц)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="freq"
+                                           th:field="*{freq}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('freq')}"
+                                           th:errors="*{freq}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="minPower" class="form-label">Минимальная мощность БП (Вт)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="minPower"
+                                           th:field="*{minPower}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('minPower')}"
+                                           th:errors="*{minPower}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Память -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Память</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="memoryCapacity" class="form-label">Объем памяти (ГБ)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="memoryCapacity"
+                                           th:field="*{memoryCapacity}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('memoryCapacity')}"
+                                           th:errors="*{memoryCapacity}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="memoryType" class="form-label">Тип памяти</label>
+                                    <select class="form-select"
+                                            id="memoryType"
+                                            th:field="*{memoryType}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите тип памяти</option>
+                                        <option th:each="type : ${model.memoryTypes}"
+                                                th:value="${type}"
+                                                th:text="${type}">GDDR6
+                                        </option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('memoryType')}"
+                                           th:errors="*{memoryType}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Интерфейс -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Интерфейс</h5>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="slotType" class="form-label">Тип слота</label>
+                                    <select class="form-select"
+                                            id="slotType"
+                                            th:field="*{slotType}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите тип слота</option>
+                                        <option th:each="type : ${model.slotTypes}"
+                                                th:value="${type}"
+                                                th:text="${type}">PCIe
+                                        </option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('slotType')}"
+                                           th:errors="*{slotType}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/product/gpu}" class="btn btn-outline-secondary">
+                                    Отмена
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Добавить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

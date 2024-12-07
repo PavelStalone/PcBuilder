@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-9 align-self-center pt-5">
-                <h2 class="text-center text-dark mt-5">Список корпусов</h2>
+                <h2 class="text-center text-dark mt-5">Список блоков питания</h2>
 
                 <div class="container-fluid">
                     <div class="row">
@@ -19,7 +19,7 @@
                                     <h5 class="card-title mb-0">Фильтрация</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form th:action="@{/product/case}" method="get">
+                                    <form th:action="@{/product/power}" method="get">
                                         <!-- Поиск по модели -->
                                         <div class="mb-3">
                                             <label for="model" class="form-label">Модель</label>
@@ -49,40 +49,51 @@
                                             </div>
                                         </div>
 
+                                        <!-- Диапазон мощности -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Мощность (Вт)</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control" name="powerLower"
+                                                       placeholder="От" th:value="${filter?.powerLower}">
+                                                <input type="number" class="form-control" name="powerUpper"
+                                                       placeholder="До" th:value="${filter?.powerUpper}">
+                                            </div>
+                                        </div>
+
                                         <!-- Кнопки управления -->
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Применить</button>
-                                            <a href="/product/case" class="btn btn-outline-secondary">Сбросить</a>
+                                            <a href="/product/power" class="btn btn-outline-secondary">Сбросить</a>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Список корпусов -->
+                        <!-- Список блоков питания -->
                         <div class="col-md-9">
-                            <div th:if="${#lists.isEmpty(model.caseList)}" class="alert alert-info">
-                                Корпуса не найдены
+                            <div th:if="${#lists.isEmpty(model.powerList)}" class="alert alert-info">
+                                Блоки питания не найдены
                             </div>
 
-                            <div th:if="${not #lists.isEmpty(model.caseList)}">
-                                <div th:each="case : ${model.caseList}" class="card shadow-sm mb-2">
+                            <div th:if="${not #lists.isEmpty(model.powerList)}">
+                                <div th:each="power : ${model.powerList}" class="card shadow-sm mb-2">
                                     <div class="card-body p-2">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h5 class="m-0" th:text="${case.model}">Модель</h5>
-                                            <span class="badge bg-primary" th:text="${case.cost} + ' RUB'">Цена</span>
+                                            <h5 class="m-0" th:text="${power.model}">Модель</h5>
+                                            <span class="badge bg-primary" th:text="${power.cost} + ' RUB'">Цена</span>
                                         </div>
 
                                         <div class="row g-2">
                                             <div class="col-12">
-                                                <small class="text-muted">Форм-фактор блока питания:</small>
-                                                <span class="ms-1" th:text="${case.powerFactor}">Форм-фактор</span>
+                                                <small class="text-muted">Мощность:</small>
+                                                <span class="ms-1" th:text="${power.power} + ' Вт'">Мощность</span>
                                             </div>
                                         </div>
 
                                         <div class="mt-2 text-end">
                                             <a class="btn btn-primary btn-sm"
-                                               th:href="@{/product/case/{id}(id=${case.id})}">
+                                               th:href="@{/product/power/{id}(id=${power.id})}">
                                                 Подробнее
                                             </a>
                                         </div>
@@ -99,13 +110,15 @@
                             th:each="pageNumber : ${#numbers.sequence(1, model.totalPages)}"
                             th:classappend="${pageNumber == filter.page} ? 'active'">
                             <a class="page-link"
-                               th:href="@{/product/case(
+                               th:href="@{/product/power(
                                    page=${pageNumber},
                                    size=${filter.size},
                                    model=${filter.model},
                                    isDescCost=${filter.isDescCost},
                                    costLower=${filter.costLower},
-                                   costUpper=${filter.costUpper}
+                                   costUpper=${filter.costUpper},
+                                   powerLower=${filter.powerLower},
+                                   powerUpper=${filter.powerUpper}
                                )}"
                                th:text="${pageNumber}">1</a>
                         </li>
@@ -113,7 +126,7 @@
                 </nav>
 
                 <div class="mt-4">
-                    <a class="btn btn-success" th:href="@{/product/case/create}">Добавить корпус</a>
+                    <a class="btn btn-success" th:href="@{/product/power/create}">Добавить блок питания</a>
                 </div>
             </div>
         </div>

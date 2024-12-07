@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <h1 class="text-center mb-4">Редактирование SSD накопителя</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/product/ssd/{id}/edit(id=${form.id})}" method="post" th:object="${form}">
+                            <div class="small text-muted mb-3">
+                                ID: <span th:text="*{id}"></span>
+                                <input type="hidden" th:field="*{id}">
+                            </div>
+
+                            <!-- Основная информация -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Основная информация</h5>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="model" class="form-label">Модель</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="model"
+                                           th:field="*{model}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('model')}"
+                                           th:errors="*{model}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="price" class="form-label">Цена</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="price"
+                                           th:field="*{cost}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('cost')}"
+                                           th:errors="*{cost}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Характеристики памяти -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Характеристики памяти</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="memoryCapacity" class="form-label">Объем памяти (ГБ)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="memoryCapacity"
+                                           th:field="*{memoryCapacity}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('memoryCapacity')}"
+                                           th:errors="*{memoryCapacity}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="tbw" class="form-label">Ресурс записи (TBW)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="tbw"
+                                           th:field="*{tbw}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('tbw')}"
+                                           th:errors="*{tbw}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Скорость и интерфейс -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Скорость и интерфейс</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxReadSpeed" class="form-label">Скорость чтения (МБ/с)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxReadSpeed"
+                                           th:field="*{maxReadSpeed}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxReadSpeed')}"
+                                           th:errors="*{maxReadSpeed}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxWriteSpeed" class="form-label">Скорость записи (МБ/с)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxWriteSpeed"
+                                           th:field="*{maxWriteSpeed}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxWriteSpeed')}"
+                                           th:errors="*{maxWriteSpeed}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="interfaceType" class="form-label">Тип интерфейса</label>
+                                    <select class="form-select"
+                                            id="interfaceType"
+                                            th:field="*{interfaceType}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите интерфейс</option>
+                                        <option th:each="type : ${model.interfaceTypes}"
+                                                th:value="${type}"
+                                                th:text="${type}">SATA III</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('interfaceType')}"
+                                           th:errors="*{interfaceType}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxPower" class="form-label">Макс. потребляемая мощность (Вт)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="maxPower"
+                                           th:field="*{maxPower}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('maxPower')}"
+                                           th:errors="*{maxPower}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/product/ssd/{id}(id=${form.id})}" class="btn btn-outline-secondary">
+                                    Отмена
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Сохранить изменения
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>
