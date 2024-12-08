@@ -1,8 +1,8 @@
 package com.example.pcbuilder.controller.build;
 
 import com.example.pcbuilder.common.mapper.Mapper;
-import com.example.pcbuilder.service.build.contract.BuildService;
 import com.example.pcbuilder.service.TagService;
+import com.example.pcbuilder.service.build.contract.BuildService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.build.BuildController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
@@ -39,33 +39,35 @@ public class BuildControllerImpl implements BuildController {
     @Override
     @GetMapping("/users")
     public String usersBuilds(
-            @ModelAttribute("filter") BuildFilter buildFilter,
+            @ModelAttribute("filter") BuildFilter filter,
             Model model
     ) {
-        var filter = new BuildFilter(
-                buildFilter.page() > 0 ? buildFilter.page() : 1,
-                buildFilter.size() > 0 ? buildFilter.size() : 1,
-                buildFilter.ownerName(),
-                buildFilter.tags(),
-                buildFilter.isDescRate(),
-                buildFilter.isDescCost(),
-                buildFilter.rateRange(),
-                buildFilter.priceRange()
+        var filterIn = new BuildFilter(
+                filter.page() != null ? filter.page() : 1,
+                filter.size() != null ? filter.size() : 10,
+                filter.ownerName(),
+                filter.tags(),
+                filter.isDescRate(),
+                filter.isDescCost(),
+                filter.rateLower(),
+                filter.rateUpper(),
+                filter.costLower(),
+                filter.costUpper()
         );
         var availableTags = tagService.getAvailableTags();
-        var builds = buildService.getAllByFilter(filter)
-                .map((it) -> Mapper.createTypeMap(BuildDto.class, BuildViewModel.class).map(it))
-                .toList();
+        var builds = buildService.getAllByFilter(filterIn)
+                .map((it) -> Mapper.createTypeMap(BuildDto.class, BuildViewModel.class).map(it));
         var viewModel = new BuildListViewModel(
                 createBaseViewModel("Подбор сборок"),
                 availableTags,
-                builds
+                builds.toList(),
+                builds.getTotalPages()
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filter);
+        model.addAttribute("filter", filterIn);
 
-        return "build-list";
+        return "build/list";
     }
 
     @Override

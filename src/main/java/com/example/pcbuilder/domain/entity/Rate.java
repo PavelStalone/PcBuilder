@@ -45,12 +45,22 @@ public class Rate {
         this.build = build;
     }
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 511)
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+        return "Rate{" +
+                "rate=" + rate +
+                ", user=" + user +
+                ", build=" + build +
+                ", comment='" + comment + '\'' +
+                '}';
     }
 }

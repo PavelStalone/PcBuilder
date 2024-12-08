@@ -24,11 +24,9 @@ public class Tag extends BaseEntity {
         this.name = name;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "tags_builds",
-            joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "build_id", referencedColumnName = "id")
+    @ManyToMany(
+            mappedBy = "tags",
+            fetch = FetchType.EAGER
     )
     public Set<Build> getBuilds() {
         return builds;

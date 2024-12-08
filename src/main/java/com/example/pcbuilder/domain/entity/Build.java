@@ -2,19 +2,22 @@ package com.example.pcbuilder.domain.entity;
 
 import com.example.pcbuilder.domain.entity.product.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Formula;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "builds")
-public class Build extends BaseProduct {
+public class Build extends BaseEntity {
 
     private RAM ram;
     private SSD ssd;
     private HDD hdd;
+    private int cost;
     private Case pcCase;
     private User owner;
     private int ramCounts;
+    private int gpuCounts;
     private Processor cpu;
     private Set<Tag> tags;
     private int orderCounts;
@@ -59,6 +62,33 @@ public class Build extends BaseProduct {
         this.hdd = hdd;
     }
 
+    @Formula("(SELECT " +
+            "COALESCE(r.cost * b.ram_counts, 0) + " +
+            "COALESCE(s.cost, 0) + " +
+            "COALESCE(h.cost, 0) + " +
+            "COALESCE(c.cost, 0) + " +
+            "COALESCE(p.cost, 0) + " +
+            "COALESCE(g.cost * b.gpu_counts, 0) + " +
+            "COALESCE(pu.cost, 0) + " +
+            "COALESCE(m.cost, 0) " +
+            "FROM builds b " +
+            "LEFT JOIN ram r ON b.ram_id = r.id " +
+            "LEFT JOIN ssd s ON b.ssd_id = s.id " +
+            "LEFT JOIN hdd h ON b.hdd_id = h.id " +
+            "LEFT JOIN cases c ON b.case_id = c.id " +
+            "LEFT JOIN processors p ON b.cpu_id = p.id " +
+            "LEFT JOIN graphics_cards g ON b.gpu_id = g.id " +
+            "LEFT JOIN power_units pu ON b.power_unit_id = pu.id " +
+            "LEFT JOIN motherboards m ON b.motherboard_id = m.id " +
+            "WHERE b.id = id)")
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     @ManyToOne
     @JoinColumn(name = "case_id", referencedColumnName = "id")
     public Case getPcCase() {
@@ -88,6 +118,15 @@ public class Build extends BaseProduct {
         this.ramCounts = ramCounts;
     }
 
+    @Column(name = "gpu_counts", nullable = false)
+    public int getGpuCounts() {
+        return gpuCounts;
+    }
+
+    public void setGpuCounts(int gpuCounts) {
+        this.gpuCounts = gpuCounts;
+    }
+
     @ManyToOne
     @JoinColumn(name = "cpu_id", referencedColumnName = "id")
     public Processor getCpu() {
@@ -98,10 +137,11 @@ public class Build extends BaseProduct {
         this.cpu = cpu;
     }
 
-    @ManyToMany(
-            mappedBy = "builds",
-            targetEntity = Tag.class,
-            fetch = FetchType.EAGER
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tags_builds",
+            joinColumns = @JoinColumn(name = "build_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     public Set<Tag> getTags() {
         return tags;
@@ -157,7 +197,7 @@ public class Build extends BaseProduct {
         this.averageRate = averageRate;
     }
 
-    @Column(name = "description")
+    @Column(name = "description", length = 511)
     public String getDescription() {
         return description;
     }

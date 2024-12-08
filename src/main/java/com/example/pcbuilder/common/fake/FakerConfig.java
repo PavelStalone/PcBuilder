@@ -1,27 +1,26 @@
 package com.example.pcbuilder.common.fake;
 
-import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
-import com.github.javafaker.Faker;
+import com.example.pcbuilder.common.log.Log;
+import com.example.pcbuilder.data.model.BuildPrepare;
+import com.example.pcbuilder.data.model.RatePrepare;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.RateDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static com.example.pcbuilder.common.fake.FakeData.*;
+import static com.example.pcbuilder.common.fake.FakerUtil.faker;
+import static com.example.pcbuilder.common.fake.FakerUtil.oneOf;
 
 @Configuration
 public class FakerConfig {
-
-    private final Faker faker = new Faker();
-
-    public <T> T oneOf(List<T> list) {
-        return list.get(faker.random().nextInt(list.size()));
-    }
 
     @Bean
     public ClassFiller<CpuDto> cpuFiller() {
@@ -190,6 +189,62 @@ public class FakerConfig {
             jobs.add(job);
 
             return new TagDto(job, faker.job().title());
+        };
+    }
+
+    @Bean
+    public ClassFiller<RatePrepare> ratePrepareFiller() {
+        return () -> {
+            return new RatePrepare(
+                    faker.random().nextInt(1, 10),
+                    faker.yoda().quote()
+            );
+        };
+    }
+
+    @Bean
+    public ClassFiller<BuildPrepare> buildPrepareFiller() {
+        return () -> {
+            var build = new BuildDto();
+
+            var ram = ramFiller().getFill();
+            var ssd = ssdFiller().getFill();
+            var hdd = hddFiller().getFill();
+            var cpu = cpuFiller().getFill();
+            var gpu = gpuFiller().getFill();
+            var owner = userFiller().getFill();
+            var pcCase = caseFiller().getFill();
+            var power = powerFiller().getFill();
+            var motherBoard = motherBoardFiller().getFill();
+
+            cpu.setMemoryType(new String[]{motherBoard.getMemoryType()});
+            cpu.setSocket(motherBoard.getProcessorSocket());
+
+            pcCase.setMotherboardFactor(motherBoard.getFormFactor());
+
+            gpu.setSlotType(motherBoard.getGraphicsSlotType());
+
+            ram.setMemoryType(motherBoard.getMemoryType());
+            ram.setFormFactor(motherBoard.getMemoryFormFactor());
+
+            power.setFormFactor(pcCase.getPowerFactor());
+
+            build.setRamCounts(faker.random().nextInt(1, motherBoard.getMemorySlotsCounts()));
+            build.setGpuCounts(faker.random().nextInt(1, motherBoard.getGraphicSlotsCounts()));
+            build.setDescription(faker.yoda().quote());
+
+            return new BuildPrepare(
+                    build,
+                    owner,
+                    ram,
+                    ssd,
+                    hdd,
+                    cpu,
+                    gpu,
+                    pcCase,
+                    power,
+                    motherBoard
+            );
         };
     }
 }

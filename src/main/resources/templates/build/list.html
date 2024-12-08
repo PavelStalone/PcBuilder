@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-9 align-self-center pt-5">
+                <h2 class="text-center text-dark mt-5">Готовые сборки ПК</h2>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Панель фильтров -->
+                        <div class="col-md-3">
+                            <div class="card shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Фильтрация</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form th:action="@{/build/users}" method="get">
+                                        <!-- Поиск по автору -->
+                                        <div class="mb-3">
+                                            <label for="ownerName" class="form-label">Автор сборки</label>
+                                            <input type="text" class="form-control" id="ownerName" name="ownerName"
+                                                   th:value="${filter?.ownerName}">
+                                        </div>
+
+                                        <!-- Теги -->
+                                        <div class="mb-3">
+                                            <div class="border rounded p-2"
+                                                 style="max-height: 200px; overflow-y: auto;">
+                                                <div th:each="tag : ${model.availableTags}" class="form-check">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           th:id="${'tag-' + tag.id}"
+                                                           name="tags"
+                                                           th:value="${tag.id}"
+                                                           th:checked="${filter?.tags?.contains(tag.id)}">
+                                                    <label class="form-check-label"
+                                                           th:for="${'tag-' + tag.id}"
+                                                           th:text="${tag.name}">
+                                                        Tag name
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Сортировка -->
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="isDescCost"
+                                                       name="isDescCost" th:checked="${filter?.isDescCost}">
+                                                <label class="form-check-label" for="isDescCost">
+                                                    Сначала дорогие
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="isDescRate"
+                                                       name="isDescRate" th:checked="${filter?.isDescRate}">
+                                                <label class="form-check-label" for="isDescRate">
+                                                    Сначала популярные
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Диапазон цены -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Цена</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control" name="costLower"
+                                                       placeholder="От" th:value="${filter?.costLower}">
+                                                <input type="number" class="form-control" name="costUpper"
+                                                       placeholder="До" th:value="${filter?.costUpper}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Диапазон рейтинга -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Рейтинг</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control" name="rateLower"
+                                                       placeholder="От" th:value="${filter?.rateLower}">
+                                                <input type="number" class="form-control" name="rateUpper"
+                                                       placeholder="До" th:value="${filter?.rateUpper}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Кнопки управления -->
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">Применить</button>
+                                            <a href="/build/users" class="btn btn-outline-secondary">Сбросить</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Список сборок -->
+                        <div class="col-md-9">
+                            <div th:if="${#lists.isEmpty(model.builds)}" class="alert alert-info">
+                                Сборки не найдены
+                            </div>
+
+                            <div th:if="${not #lists.isEmpty(model.builds)}">
+                                <div th:each="build : ${model.builds}" class="card shadow-sm mb-3">
+                                    <div class="card-body">
+                                        <div class="row h-100">
+                                            <!-- Левая часть -->
+                                            <div class="col-md-9">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <h5 class="card-title mb-0" th:text="${build.owner}">Автор</h5>
+                                                    <span class="badge bg-secondary px-3 py-2">
+                                                        Rate <span
+                                                            th:text="${#numbers.formatDecimal(build.rate, 1, 1)}">4.5</span>
+                                                    </span>
+                                                </div>
+
+                                                <p class="card-text mb-3"
+                                                   th:text="${#strings.length(build.description) > 150} ?
+                                                       ${#strings.substring(build.description,0,150) + '...'} :
+                                                       ${build.description}">
+                                                    Описание сборки
+                                                </p>
+
+                                                <!-- Теги горизонтально -->
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <span th:each="tag, iterStat : ${build.tags}"
+                                                          th:if="${iterStat.index < 4}"
+                                                          class="badge bg-light text-dark px-3 py-2 rounded-pill">
+                                                        <span th:text="${tag.name}">Tag name</span>
+                                                    </span>
+                                                    <span th:if="${build.tags.size() > 4}"
+                                                          class="badge bg-secondary px-3 py-2 rounded-pill"
+                                                          th:text="'+ ' + (${build.tags.size() - 4})">
+                                                        +2
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Правая часть -->
+                                            <div class="col-md-3 d-flex flex-column">
+                                                <div class="text-end mb-auto">
+                    <span class="badge bg-primary px-3 py-2 fs-5"
+                          th:text="${#numbers.formatInteger(build.cost, 1, 'COMMA') + ' ₽'}">
+                        Цена
+                    </span>
+                                                </div>
+                                                <div class="text-end mt-3">
+                                                    <a class="btn btn-primary btn-sm px-4"
+                                                       th:href="@{/build/{id}(id=${build.id})}">
+                                                        Подробнее
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav th:if="${model.totalPages > 1}" aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"
+                            th:each="pageNumber : ${#numbers.sequence(1, model.totalPages)}"
+                            th:classappend="${pageNumber == filter.page} ? 'active'">
+                            <a class="page-link"
+                               th:href="@{/build/users(
+                                   page=${pageNumber},
+                                   size=${filter.size},
+                                   ownerName=${filter.ownerName},
+                                   tags=${filter.tags?.![id]},
+                                   isDescRate=${filter.isDescRate},
+                                   isDescCost=${filter.isDescCost},
+                                   rateLower=${filter.rateLower},
+                                   rateUpper=${filter.rateUpper},
+                                   costLower=${filter.costLower},
+                                   costUpper=${filter.costUpper}
+                               )}"
+                               th:text="${pageNumber}">1</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="mt-4">
+                    <a class="btn btn-success" th:href="@{/build/create}">Создать сборку</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

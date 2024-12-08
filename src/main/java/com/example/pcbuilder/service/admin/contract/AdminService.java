@@ -4,9 +4,11 @@ import java.util.List;
 
 public interface AdminService<D> {
 
-    void addItem(D item);
+    D addItem(D item);
 
-    void addAll(List<D> items);
+    List<D> addAll(List<D> items);
+
+    List<D> getAll(int size);
 
     void removeItem(D item);
 

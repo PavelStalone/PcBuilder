@@ -1,9 +1,13 @@
 package com.example.pcbuilder.common.dbinitial;
 
 import com.example.pcbuilder.common.fake.ClassFiller;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
+import com.example.pcbuilder.data.model.BuildPrepare;
+import com.example.pcbuilder.data.model.RatePrepare;
 import com.example.pcbuilder.service.admin.contract.AdminService;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.RateDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -89,5 +93,39 @@ public class DbConfig {
             ClassFiller<TagDto> filler
     ) {
         return new BaseWriter<>(service, filler, "Tag");
+    }
+
+    @Bean
+    public DbRandomWriter buildWriter(
+            AdminService<RamDto> ramService,
+            AdminService<SsdDto> ssdService,
+            AdminService<HddDto> hddService,
+            AdminService<CpuDto> cpuService,
+            AdminService<GpuDto> gpuService,
+            AdminService<TagDto> tagService,
+            AdminService<CaseDto> caseService,
+            AdminService<UserDto> userService,
+            AdminService<PowerDto> powerService,
+            AdminService<BuildDto> buildService,
+            ClassFiller<RatePrepare> ratePrepare,
+            ClassFiller<BuildPrepare> buildPrepare,
+            AdminService<MotherboardDto> motherboardService
+    ) {
+        return new BuildWriter(
+                "Build",
+                ramService,
+                ssdService,
+                hddService,
+                cpuService,
+                gpuService,
+                tagService,
+                caseService,
+                userService,
+                powerService,
+                buildService,
+                ratePrepare,
+                buildPrepare,
+                motherboardService
+        );
     }
 }

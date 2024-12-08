@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <h1 class="text-center mb-4">Добавление корпуса</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/product/case/create}" method="post" th:object="${form}">
+                            <!-- Основная информация -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Основная информация</h5>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="model" class="form-label">Модель</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="model"
+                                           th:field="*{model}"
+                                           th:errorclass="is-invalid"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('model')}"
+                                           th:errors="*{model}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="price" class="form-label">Цена</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="price"
+                                           th:field="*{cost}"
+                                           th:errorclass="is-invalid"
+                                           min="0"
+                                           required>
+                                    <small th:if="${#fields.hasErrors('cost')}"
+                                           th:errors="*{cost}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Форм-факторы -->
+                            <div class="row mb-4">
+                                <h5 class="border-bottom pb-2">Форм-факторы</h5>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="powerFactor" class="form-label">Форм-фактор блока питания</label>
+                                    <select class="form-select"
+                                            id="powerFactor"
+                                            th:field="*{powerFactor}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите форм-фактор</option>
+                                        <option th:each="factor : ${model.powerFactors}"
+                                                th:value="${factor}"
+                                                th:text="${factor}">ATX</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('powerFactor')}"
+                                           th:errors="*{powerFactor}"
+                                           class="text-danger">Error message</small>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="motherboardFactor" class="form-label">Форм-фактор материнской платы</label>
+                                    <select class="form-select"
+                                            id="motherboardFactor"
+                                            th:field="*{motherboardFactor}"
+                                            th:errorclass="is-invalid"
+                                            required>
+                                        <option value="" disabled>Выберите форм-фактор</option>
+                                        <option th:each="factor : ${model.motherBoardFactors}"
+                                                th:value="${factor}"
+                                                th:text="${factor}">ATX</option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('motherboardFactor')}"
+                                           th:errors="*{motherboardFactor}"
+                                           class="text-danger">Error message</small>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/product/case}" class="btn btn-outline-secondary">
+                                    Отмена
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Добавить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

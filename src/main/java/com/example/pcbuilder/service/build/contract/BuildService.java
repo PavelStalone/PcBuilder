@@ -11,7 +11,9 @@ public interface BuildService {
 
     Optional<BuildDto> getById(UUID id);
 
-    void create(BuildDto build);
+    UUID create(BuildDto dto);
+
+    void remove(UUID id);
 
     Page<BuildDto> getAllByFilter(BuildFilter filter);
 }

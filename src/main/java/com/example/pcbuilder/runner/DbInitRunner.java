@@ -30,7 +30,7 @@ public class DbInitRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Log.d("DataBase runner started");
 
-        randomWriters.forEach((d) -> d.write(100));
+        randomWriters.forEach((d) -> d.write(50));
 
         System.out.println("Done");
     }
