@@ -12,7 +12,6 @@
                 <div class="card">
                     <div class="card-body">
                         <form th:action="@{/product/hdd/create}" method="post" th:object="${form}">
-                            <!-- Основная информация -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Основная информация</h5>
 
@@ -44,7 +43,6 @@
                                 </div>
                             </div>
 
-                            <!-- Характеристики памяти -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Характеристики памяти</h5>
 
@@ -77,7 +75,6 @@
                                 </div>
                             </div>
 
-                            <!-- Производительность -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Производительность</h5>
 
@@ -110,7 +107,6 @@
                                 </div>
                             </div>
 
-                            <!-- Интерфейс и питание -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Интерфейс и питание</h5>
 
@@ -146,7 +142,6 @@
                                 </div>
                             </div>
 
-                            <!-- Кнопки -->
                             <div class="d-flex justify-content-between">
                                 <a th:href="@{/product/hdd}" class="btn btn-outline-secondary">
                                     Отмена

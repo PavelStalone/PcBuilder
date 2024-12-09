@@ -23,7 +23,6 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <!-- Форм-факторы -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Форм-факторы</h5>
                                 <div class="row g-3">
@@ -42,7 +41,6 @@
                                 </div>
                             </div>
 
-                            <!-- Память -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Память</h5>
                                 <div class="row g-3">
@@ -52,20 +50,19 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="text-muted">Максимальная частота памяти</div>
-                                        <div class="fw-bold" th:text="${model.motherboard.maxMemoryFreq} + ' МГц'">3200 МГц</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.maxMemoryFreq} + ' ГГц'">0 ГГц</div>
                                     </div>
                                     <div class="col-12">
                                         <div class="text-muted">Максимальный объем памяти</div>
-                                        <div class="fw-bold" th:text="${model.motherboard.maxMemoryCapacity} + ' ГБ'">128 ГБ</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.maxMemoryCapacity} + ' ГБ'">0 ГБ</div>
                                     </div>
                                     <div class="col-12">
                                         <div class="text-muted">Количество слотов памяти</div>
-                                        <div class="fw-bold" th:text="${model.motherboard.memorySlotsCounts}">4</div>
+                                        <div class="fw-bold" th:text="${model.motherboard.memorySlotsCounts}">0</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Видеокарты -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Видеокарты</h5>
                                 <div class="row g-3">
@@ -80,7 +77,6 @@
                                 </div>
                             </div>
 
-                            <!-- Дополнительная информация -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Дополнительно</h5>
                                 <div class="row g-3">

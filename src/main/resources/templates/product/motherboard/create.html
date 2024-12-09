@@ -12,7 +12,6 @@
                 <div class="card">
                     <div class="card-body">
                         <form th:action="@{/product/motherboard/create}" method="post" th:object="${form}">
-                            <!-- Основная информация -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Основная информация</h5>
 
@@ -44,7 +43,6 @@
                                 </div>
                             </div>
 
-                            <!-- Форм-факторы и сокеты -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Форм-факторы и сокеты</h5>
 
@@ -100,7 +98,6 @@
                                 </div>
                             </div>
 
-                            <!-- Память -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Память</h5>
 
@@ -122,7 +119,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="maxMemoryFreq" class="form-label">Макс. частота памяти (МГц)</label>
+                                    <label for="maxMemoryFreq" class="form-label">Макс. частота памяти (ГГц)</label>
                                     <input type="number"
                                            class="form-control"
                                            id="maxMemoryFreq"
@@ -164,7 +161,6 @@
                                 </div>
                             </div>
 
-                            <!-- Видеокарты -->
                             <div class="row mb-4">
                                 <h5 class="border-bottom pb-2">Видеокарты</h5>
 
@@ -200,7 +196,6 @@
                                 </div>
                             </div>
 
-                            <!-- Кнопки -->
                             <div class="d-flex justify-content-between">
                                 <a th:href="@{/product/motherboard}" class="btn btn-outline-secondary">
                                     Отмена

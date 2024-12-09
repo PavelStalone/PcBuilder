@@ -12,7 +12,6 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- Панель фильтров -->
                         <div class="col-md-3">
                             <div class="card shadow-sm">
                                 <div class="card-header">
@@ -20,14 +19,12 @@
                                 </div>
                                 <div class="card-body">
                                     <form th:action="@{/product/cpu}" method="get">
-                                        <!-- Поиск по модели -->
                                         <div class="mb-3">
                                             <label for="model" class="form-label">Модель</label>
                                             <input type="text" class="form-control" id="model" name="model"
                                                    th:value="${filter?.model}">
                                         </div>
 
-                                        <!-- Сортировка по цене -->
                                         <div class="mb-3">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="isDescCost"
@@ -38,7 +35,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон цены -->
                                         <div class="mb-3">
                                             <label class="form-label">Цена</label>
                                             <div class="d-flex gap-2">
@@ -49,7 +45,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон года выпуска -->
                                         <div class="mb-3">
                                             <label class="form-label">Год выпуска</label>
                                             <div class="d-flex gap-2">
@@ -60,7 +55,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Количество ядер -->
                                         <div class="mb-3">
                                             <label class="form-label">Количество ядер</label>
                                             <div class="d-flex gap-2">
@@ -71,9 +65,8 @@
                                             </div>
                                         </div>
 
-                                        <!-- Частота -->
                                         <div class="mb-3">
-                                            <label class="form-label">Частота (Гц)</label>
+                                            <label class="form-label">Частота (ГГц)</label>
                                             <div class="d-flex gap-2">
                                                 <input type="number" class="form-control" name="freqLower"
                                                        placeholder="От" th:value="${filter?.freqLower}">
@@ -82,7 +75,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Количество потоков -->
                                         <div class="mb-3">
                                             <label class="form-label">Количество потоков</label>
                                             <div class="d-flex gap-2">
@@ -93,7 +85,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Кнопки управления -->
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Применить</button>
                                             <a href="/product/cpu" class="btn btn-outline-secondary">Сбросить</a>
@@ -103,7 +94,6 @@
                             </div>
                         </div>
 
-                        <!-- Список процессоров -->
                         <div class="col-md-9">
                             <div th:if="${#lists.isEmpty(model.cpuList)}" class="alert alert-info">
                                 Процессоры не найдены
@@ -130,12 +120,12 @@
 
                                             <div class="col-6">
                                                 <small class="text-muted">Базовая частота:</small>
-                                                <span class="ms-1" th:text="${cpu.baseFreq + ' Гц'}">Частота</span>
+                                                <span class="ms-1" th:text="${cpu.baseFreq + ' ГГц'}">Частота</span>
                                             </div>
 
                                             <div class="col-6">
                                                 <small class="text-muted">Частота в турбо режиме:</small>
-                                                <span class="ms-1" th:text="${cpu.maxFreq + ' Гц'}">Частота</span>
+                                                <span class="ms-1" th:text="${cpu.maxFreq + ' ГГц'}">Частота</span>
                                             </div>
                                         </div>
 
@@ -151,21 +141,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--                <form th:action="@{/cpu}"-->
-                <!--                      th:method="get"-->
-                <!--                      th:object="${filter}"-->
-                <!--                      class="mb-3">-->
-                <!--                    <div class="input-group">-->
-                <!--                        <input type="text"-->
-                <!--                               th:field="*{model}"-->
-                <!--                               class="form-control"-->
-                <!--                               placeholder="Поиск по модели"/>-->
-                <!--                        <input type="hidden" th:field="*{page}" />-->
-                <!--                        <input type="hidden" th:field="*{size}" />-->
-                <!--                        <button class="btn btn-primary" type="submit">Поиск</button>-->
-                <!--                    </div>-->
-                <!--                </form>-->
 
                 <nav th:if="${model.totalPages > 1}" aria-label="Page navigation">
                     <ul class="pagination justify-content-center">

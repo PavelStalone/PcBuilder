@@ -23,13 +23,12 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <!-- Производительность -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Производительность</h5>
                                 <div class="row g-3">
                                     <div class="col-12">
                                         <div class="text-muted">Частота ядра</div>
-                                        <div class="fw-bold" th:text="${model.gpu.freq} + ' МГц'">Частота</div>
+                                        <div class="fw-bold" th:text="${model.gpu.freq} + ' ГГц'">Частота</div>
                                     </div>
                                     <div class="col-12">
                                         <div class="text-muted">Минимальная мощность БП</div>
@@ -38,7 +37,6 @@
                                 </div>
                             </div>
 
-                            <!-- Память -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Память</h5>
                                 <div class="row g-3">
@@ -53,7 +51,6 @@
                                 </div>
                             </div>
 
-                            <!-- Интерфейс -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Интерфейс</h5>
                                 <div class="row g-3">
@@ -64,7 +61,6 @@
                                 </div>
                             </div>
 
-                            <!-- Дополнительная информация -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Дополнительно</h5>
                                 <div class="row g-3">

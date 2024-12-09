@@ -25,7 +25,6 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <!-- Основные характеристики -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Производительность</h5>
                                 <div class="row g-3">
@@ -39,16 +38,15 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-muted">Базовая частота</div>
-                                        <div class="fw-bold" th:text="${model.cpu.baseFreq + ' Гц'}">0 Гц</div>
+                                        <div class="fw-bold" th:text="${model.cpu.baseFreq + ' ГГц'}">0 ГГц</div>
                                     </div>
                                     <div class="col-6">
                                         <div class="text-muted">Частота в турбо режиме</div>
-                                        <div class="fw-bold" th:text="${model.cpu.maxFreq + ' Гц'}">0 Гц</div>
+                                        <div class="fw-bold" th:text="${model.cpu.maxFreq + ' ГГц'}">0 ГГц</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Память и совместимость -->
                             <div class="col-md-6 mb-4">
                                 <h5 class="border-bottom pb-2">Память и совместимость</h5>
                                 <div class="row g-3">
@@ -72,7 +70,6 @@
                                 </div>
                             </div>
 
-                            <!-- Дополнительные характеристики -->
                             <div class="col-12">
                                 <h5 class="border-bottom pb-2">Дополнительно</h5>
                                 <div class="row g-3">

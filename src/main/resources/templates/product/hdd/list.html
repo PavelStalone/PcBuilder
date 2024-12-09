@@ -12,7 +12,6 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- Панель фильтров -->
                         <div class="col-md-3">
                             <div class="card shadow-sm">
                                 <div class="card-header">
@@ -27,7 +26,6 @@
                                                    th:value="${filter?.model}">
                                         </div>
 
-                                        <!-- Сортировка по цене -->
                                         <div class="mb-3">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="isDescCost"
@@ -38,7 +36,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон цены -->
                                         <div class="mb-3">
                                             <label class="form-label">Цена</label>
                                             <div class="d-flex gap-2">
@@ -49,7 +46,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон мощности -->
                                         <div class="mb-3">
                                             <label class="form-label">Мощность (Вт)</label>
                                             <div class="d-flex gap-2">
@@ -60,7 +56,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон объема памяти -->
                                         <div class="mb-3">
                                             <label class="form-label">Объем памяти (ГБ)</label>
                                             <div class="d-flex gap-2">
@@ -71,7 +66,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон скорости вращения -->
                                         <div class="mb-3">
                                             <label class="form-label">Скорость вращения (об/мин)</label>
                                             <div class="d-flex gap-2">
@@ -82,7 +76,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Кнопки управления -->
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Применить</button>
                                             <a href="/product/hdd" class="btn btn-outline-secondary">Сбросить</a>
@@ -92,7 +85,6 @@
                             </div>
                         </div>
 
-                        <!-- Список жестких дисков -->
                         <div class="col-md-9">
                             <div th:if="${#lists.isEmpty(model.hddList)}" class="alert alert-info">
                                 Жесткие диски не найдены

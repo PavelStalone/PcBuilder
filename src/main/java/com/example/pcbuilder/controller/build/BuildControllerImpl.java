@@ -1,5 +1,6 @@
 package com.example.pcbuilder.controller.build;
 
+import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.TagService;
 import com.example.pcbuilder.service.build.contract.BuildService;
@@ -8,6 +9,7 @@ import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildForm;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +73,20 @@ public class BuildControllerImpl implements BuildController {
     }
 
     @Override
-    public String detail(UUID id, Model model) {
-        return null;
+    public String detail(
+            UUID id,
+            Model model
+    ) {
+        Log.d("detail called - id: " + id);
+
+        var details = new BuildDetailsViewModel(
+                createBaseViewModel("Сборка"),
+                buildService.getById(id).orElse(null)
+        );
+
+        model.addAttribute("model", details);
+
+        return "build/details";
     }
 
     @Override

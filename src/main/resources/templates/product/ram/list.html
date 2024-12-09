@@ -12,7 +12,6 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- Панель фильтров -->
                         <div class="col-md-3">
                             <div class="card shadow-sm">
                                 <div class="card-header">
@@ -20,14 +19,12 @@
                                 </div>
                                 <div class="card-body">
                                     <form th:action="@{/product/ram}" method="get">
-                                        <!-- Поиск по модели -->
                                         <div class="mb-3">
                                             <label for="model" class="form-label">Модель</label>
                                             <input type="text" class="form-control" id="model" name="model"
                                                    th:value="${filter?.model}">
                                         </div>
 
-                                        <!-- Сортировка по цене -->
                                         <div class="mb-3">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="isDescCost"
@@ -38,7 +35,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон цены -->
                                         <div class="mb-3">
                                             <label class="form-label">Цена</label>
                                             <div class="d-flex gap-2">
@@ -49,9 +45,8 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон частоты -->
                                         <div class="mb-3">
-                                            <label class="form-label">Частота (МГц)</label>
+                                            <label class="form-label">Частота (ГГц)</label>
                                             <div class="d-flex gap-2">
                                                 <input type="number" class="form-control" name="freqLower"
                                                        placeholder="От" th:value="${filter?.freqLower}">
@@ -60,7 +55,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Диапазон объема памяти -->
                                         <div class="mb-3">
                                             <label class="form-label">Объем памяти (ГБ)</label>
                                             <div class="d-flex gap-2">
@@ -71,7 +65,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Кнопки управления -->
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Применить</button>
                                             <a href="/product/ram" class="btn btn-outline-secondary">Сбросить</a>
@@ -81,7 +74,6 @@
                             </div>
                         </div>
 
-                        <!-- Список оперативной памяти -->
                         <div class="col-md-9">
                             <div th:if="${#lists.isEmpty(model.ramList)}" class="alert alert-info">
                                 Оперативная память не найдена
@@ -102,11 +94,11 @@
                                             </div>
                                             <div class="col-6">
                                                 <small class="text-muted">Частота:</small>
-                                                <span class="ms-1" th:text="${ram.freq} + ' МГц'">3200 МГц</span>
+                                                <span class="ms-1" th:text="${ram.freq} + ' ГГц'">0 ГГц</span>
                                             </div>
                                             <div class="col-6">
                                                 <small class="text-muted">Объем:</small>
-                                                <span class="ms-1" th:text="${ram.memoryCapacity} + ' ГБ'">16 ГБ</span>
+                                                <span class="ms-1" th:text="${ram.memoryCapacity} + ' ГБ'">0 ГБ</span>
                                             </div>
                                         </div>
 

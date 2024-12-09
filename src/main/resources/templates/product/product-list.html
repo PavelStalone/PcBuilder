@@ -18,12 +18,7 @@
                     <a class="btn d-flex flex-column bg-text mb-3 p-3 border rounded"
                        th:each="product : ${model.products}"
                        th:href="@{/product/{postfix}(postfix=${product.postfix})}">
-
                             <h4 th:text="${product.name}">Название комплектующего</h4>
-                            <!--                        <div class="mt-2">-->
-                            <!--                            <a class="btn btn-secondary"-->
-                            <!--                               th:href="@{/books/{id}(id=${book.id})}">Подробнее</a>-->
-                            <!--                        </div>-->
                     </a>
                 </div>
             </div>
