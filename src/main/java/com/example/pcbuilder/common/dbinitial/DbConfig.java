@@ -6,6 +6,7 @@ import com.example.pcbuilder.data.model.RatePrepare;
 import com.example.pcbuilder.service.admin.contract.AdminService;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.other.OrderDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.other.RateDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
@@ -107,7 +108,6 @@ public class DbConfig {
             AdminService<UserDto> userService,
             AdminService<PowerDto> powerService,
             AdminService<BuildDto> buildService,
-            ClassFiller<RatePrepare> ratePrepare,
             ClassFiller<BuildPrepare> buildPrepare,
             AdminService<MotherboardDto> motherboardService
     ) {
@@ -123,9 +123,38 @@ public class DbConfig {
                 userService,
                 powerService,
                 buildService,
-                ratePrepare,
                 buildPrepare,
                 motherboardService
+        );
+    }
+
+    @Bean
+    public DbRandomWriter rateWriter(
+            AdminService<UserDto> userService,
+            AdminService<RateDto> rateService,
+            AdminService<BuildDto> buildService,
+            ClassFiller<RatePrepare> ratePrepare
+    ) {
+        return new RateWriter(
+                "Rate",
+                userService,
+                rateService,
+                buildService,
+                ratePrepare
+        );
+    }
+
+    @Bean
+    public DbRandomWriter orderWriter(
+            AdminService<UserDto> userService,
+            AdminService<OrderDto> orderService,
+            AdminService<BuildDto> buildService
+    ) {
+        return new OrderWriter(
+                "Order",
+                userService,
+                orderService,
+                buildService
         );
     }
 }

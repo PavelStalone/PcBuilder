@@ -188,7 +188,12 @@ public class Build extends BaseEntity {
         this.orders = orders;
     }
 
-    @Column(name = "average_rate", nullable = false)
+    @Formula("(SELECT " +
+            "COALESCE(AVG(r.rate), 0) " +
+            "FROM builds b " +
+            "LEFT JOIN rates r ON b.id = r.build_id " +
+            "WHERE b.id = id " +
+            "GROUP BY r.build_id)")
     public float getAverageRate() {
         return averageRate;
     }

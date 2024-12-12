@@ -49,7 +49,6 @@ public class BuildControllerImpl implements BuildController {
                 filter.size() != null ? filter.size() : 10,
                 filter.ownerName(),
                 filter.tags(),
-                filter.isDescRate(),
                 filter.isDescCost(),
                 filter.rateLower(),
                 filter.rateUpper(),

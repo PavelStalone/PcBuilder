@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "rates")
-public class Rate {
+public class Rate extends BaseEntity {
 
     private int rate;
     private User user;
@@ -23,7 +23,6 @@ public class Rate {
         this.rate = rate;
     }
 
-    @EmbeddedId
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
@@ -34,7 +33,6 @@ public class Rate {
         this.user = user;
     }
 
-    @EmbeddedId
     @ManyToOne(optional = false)
     @JoinColumn(name = "build_id", referencedColumnName = "id", nullable = false)
     public Build getBuild() {

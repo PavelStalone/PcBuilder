@@ -52,13 +52,6 @@
                                                     Сначала дорогие
                                                 </label>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="isDescRate"
-                                                       name="isDescRate" th:checked="${filter?.isDescRate}">
-                                                <label class="form-check-label" for="isDescRate">
-                                                    Сначала популярные
-                                                </label>
-                                            </div>
                                         </div>
 
                                         <div class="mb-3">
@@ -105,7 +98,7 @@
                                                     <h5 class="card-title mb-0" th:text="${build.owner}">Автор</h5>
                                                 </div>
 
-                                                <p class="d-flex card-text mb-3"
+                                                <p class="d-flex card-text text-start mb-3"
                                                    th:text="${#strings.length(build.description) > 150} ?
                                                        ${#strings.substring(build.description,0,150) + '...'} :
                                                        ${build.description}">

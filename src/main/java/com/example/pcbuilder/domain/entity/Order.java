@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
     private int cost;
     private User user;
@@ -22,7 +22,6 @@ public class Order {
         this.cost = cost;
     }
 
-    @EmbeddedId
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
@@ -33,7 +32,6 @@ public class Order {
         this.user = user;
     }
 
-    @EmbeddedId
     @ManyToOne(optional = false)
     @JoinColumn(name = "build_id", referencedColumnName = "id", nullable = false)
     public Build getBuild() {

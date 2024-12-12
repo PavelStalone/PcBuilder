@@ -4,15 +4,12 @@ import com.example.pcbuilder.common.fake.ClassFiller;
 import com.example.pcbuilder.common.fake.FakerUtil;
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.data.model.BuildPrepare;
-import com.example.pcbuilder.data.model.RatePrepare;
 import com.example.pcbuilder.service.admin.contract.AdminService;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.RateDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.example.pcbuilder.common.fake.FakerUtil.faker;
@@ -30,7 +27,6 @@ public class BuildWriter implements DbRandomWriter {
     private final AdminService<UserDto> userService;
     private final AdminService<PowerDto> powerService;
     private final AdminService<BuildDto> buildService;
-    private final ClassFiller<RatePrepare> ratePrepare;
     private final ClassFiller<BuildPrepare> buildPrepare;
     private final AdminService<MotherboardDto> motherboardService;
 
@@ -46,7 +42,6 @@ public class BuildWriter implements DbRandomWriter {
             AdminService<UserDto> userService,
             AdminService<PowerDto> powerService,
             AdminService<BuildDto> buildService,
-            ClassFiller<RatePrepare> ratePrepare,
             ClassFiller<BuildPrepare> buildPrepare,
             AdminService<MotherboardDto> motherboardService
     ) {
@@ -61,7 +56,6 @@ public class BuildWriter implements DbRandomWriter {
         this.userService = userService;
         this.powerService = powerService;
         this.buildService = buildService;
-        this.ratePrepare = ratePrepare;
         this.buildPrepare = buildPrepare;
         this.motherboardService = motherboardService;
     }
@@ -104,23 +98,6 @@ public class BuildWriter implements DbRandomWriter {
 
                 var takingTags = FakerUtil.manyOf(tags, faker.random().nextInt(1, 5));
                 builds.get(i).setTags(takingTags);
-
-//                int finalI = i;
-//                var rates = Stream.generate(ratePrepare::getFill)
-//                        .limit(faker.random().nextInt(0, 10))
-//                        .map((it) -> {
-//                            var rate = new RateDto();
-//
-//                            rate.setRate(it.rate());
-//                            rate.setComment(it.comment());
-//
-//                            rate.setBuild(builds.get(finalI));
-//                            rate.setUser(FakerUtil.oneOf(userList));
-//
-//                            return rate;
-//                        })
-//                        .collect(Collectors.toSet());
-//                builds.get(i).setRates(rates);
             }
 
             buildService.addAll(builds);

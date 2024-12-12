@@ -3,12 +3,10 @@ package com.example.pcbuilder.service.build.impl;
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.domain.entity.Build;
-import com.example.pcbuilder.domain.entity.Tag;
 import com.example.pcbuilder.domain.repository.build.contract.BuildRepository;
 import com.example.pcbuilder.service.build.contract.BuildService;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +73,23 @@ public class BuildServiceImpl implements BuildService {
                             criteriaBuilder.like(
                                     criteriaBuilder.lower(root.get("owner").get("nickName")),
                                     "%" + it.toLowerCase() + "%"
+                            )
+                    ));
+            // endregion
+
+            // region Rate
+            Optional.ofNullable(filter.rateLower())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.greaterThanOrEqualTo(
+                                    root.get("averageRate"),
+                                    it
+                            )
+                    ));
+            Optional.ofNullable(filter.rateUpper())
+                    .ifPresent((it) -> predicates.add(
+                            criteriaBuilder.lessThanOrEqualTo(
+                                    root.get("averageRate"),
+                                    it
                             )
                     ));
             // endregion
