@@ -2,75 +2,295 @@
 <html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}"/>
 <body class="d-flex flex-column h-100">
-<div th:replace="fragments/navbar">Navbar</div>
+<div th:replace="~{fragments/navbar}">Navbar</div>
 <main class="flex-shrink-0">
     <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
-                <div class="justify-content-center">
-                    <h1>Информация о сборке</h1>
+        <h1 class="text-center text-dark mt-5" th:text="${'Сборка от: ' + model.build.owner.nickName}">
+            Подробная информация о сборке
+        </h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="fw-bold">Описание:</label>
+                    <p th:text="${model.build.description}" class="mb-0">Описание сборки</p>
                 </div>
+                <div>
+                    <label class="fw-bold">Подходит для:</label>
+                    <div class="d-flex gap-2">
+                        <span th:each="tag : ${model.build.tags}"
+                              class="badge bg-primary px-3 py-2 rounded-pill"
+                              th:text="${tag.name}">
+                            Tag
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <div class="card mt-4">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h4 class="m-0" th:text="${model.build.owner.nickName}">Имя создателя</h4>
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="badge bg-light text-primary"
-                                  th:text="${model.build.cost} + ' RUB'">Цена</span>
+        <div class="overflow-auto py-4">
+            <div class="d-flex flex-nowrap gap-3 px-2">
+                <!-- RAM -->
+                <div th:if="${model.build.ram != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">Оперативная память</h5>
+                        <small class="text-primary" th:text="${model.build.ram.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Объём:</span>
+                            <span th:text="${model.build.ram.memoryCapacity + ' ГБ'}">0 ГБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Частота:</span>
+                            <span th:text="${model.build.ram.freq + ' ГГц'}">0 ГГц</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Тип памяти:</span>
+                            <span th:text="${model.build.ram.memoryType}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Кол-во:</span>
+                            <span th:text="${model.build.ramCounts}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.ram.cost + ' RUB'}">0 RUB</span>
                         </div>
                     </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <h5 class="border-bottom pb-2">Форм-факторы</h5>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <div class="text-muted">Блок питания</div>
-                                        <div class="fw-bold" th:text="${model.pcCase.powerFactor}">ATX</div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="text-muted">Материнская плата</div>
-                                        <div class="fw-bold" th:text="${model.pcCase.motherboardFactor}">ATX</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <h5 class="border-bottom pb-2">Дополнительно</h5>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <div class="text-muted">Идентификатор</div>
-                                        <div class="small text-muted" th:text="${model.pcCase.id}">ID</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-footer bg-light">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a th:href="@{/product/case/{id}/edit(id=${model.pcCase.id})}" class="btn btn-primary">
-                                    Редактировать
-                                </a>
-                                <a th:href="@{/product/case/{id}/delete(id=${model.pcCase.id})}" class="btn btn-danger">
-                                    Удалить
-                                </a>
-                            </div>
-                            <div class="text-muted small">
-                                Информация актуальна на
-                                <span th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}">дату</span>
-                            </div>
-                        </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/ram/{id}(id=${model.build.ram.id})}" class="btn btn-primary w-100">Подробнее</a>
                     </div>
                 </div>
 
-            </main>
+                <!-- SSD -->
+                <div th:if="${model.build.ssd != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">SSD</h5>
+                        <small class="text-primary" th:text="${model.build.ssd.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Макс. ресурс записи:</span>
+                            <span th:text="${model.build.ssd.tbw + ' ТБ'}">0 ТБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Скорость чтения:</span>
+                            <span th:text="${model.build.ssd.maxReadSpeed + ' МБ/c'}">0 МБ/c</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Скорость записи:</span>
+                            <span th:text="${model.build.ssd.maxWriteSpeed + ' МБ/c'}">0 МБ/c</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Объем:</span>
+                            <span th:text="${model.build.ssd.memoryCapacity + ' ГБ'}">0 ГБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.ssd.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/ssd/{id}(id=${model.build.ssd.id})}" class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+
+                <!-- HDD -->
+                <div th:if="${model.build.hdd != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">HDD</h5>
+                        <small class="text-primary" th:text="${model.build.hdd.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Объем кэша:</span>
+                            <span th:text="${model.build.hdd.cacheMemory + ' МБ'}">0 МБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Скорость:</span>
+                            <span th:text="${model.build.hdd.rotationSpeed + ' об/мин'}">0 об/мин</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Объем:</span>
+                            <span th:text="${model.build.hdd.memoryCapacity + ' ГБ'}">0 ГБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Скорость передачи:</span>
+                            <span th:text="${model.build.hdd.maxSpeedTransfer + ' МБ/c'}">0 МБ/c</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.hdd.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/hdd/{id}(id=${model.build.hdd.id})}" class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+
+                <!-- Процессор -->
+                <div th:if="${model.build.cpu != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">Процессор</h5>
+                        <small class="text-primary" th:text="${model.build.cpu.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Кол-во ядер:</span>
+                            <span th:text="${model.build.cpu.cores}">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Кол-во потоков:</span>
+                            <span th:text="${model.build.cpu.threads}">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Базовая частота:</span>
+                            <span th:text="${model.build.cpu.baseFreq + ' ГГц'}">0 ГГц</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Частота в разгоне:</span>
+                            <span th:text="${model.build.cpu.maxFreq + ' ГГц'}">0 ГГц</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.cpu.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/cpu/{id}(id=${model.build.cpu.id})}" class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+
+                <!-- Видеокарта -->
+                <div th:if="${model.build.gpu != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">Видеокарта</h5>
+                        <small class="text-primary" th:text="${model.build.gpu.model}">[Модель]</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Частота:</span>
+                            <span th:text="${model.build.gpu.freq + ' МГц'}">0 МГц</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Память:</span>
+                            <span th:text="${model.build.gpu.memoryCapacity + ' ГБ'}">0 ГБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Тип памяти:</span>
+                            <span th:text="${model.build.gpu.memoryType}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Кол-во:</span>
+                            <span th:text="${model.build.gpuCounts}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.gpu.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/gpu/{id}(id=${model.build.gpu.id})}" class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+
+                <!-- Case -->
+                <div th:if="${model.build.pcCase != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">Корпус</h5>
+                        <small class="text-primary" th:text="${model.build.pcCase.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Блок питания:</span>
+                            <span th:text="${model.build.pcCase.powerFactor}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Мат. плата:</span>
+                            <span th:text="${model.build.pcCase.motherboardFactor}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.pcCase.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/case/{id}(id=${model.build.pcCase.id})}" class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+
+                <!-- Power -->
+                <div th:if="${model.build.powerUnit != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">Блок питания</h5>
+                        <small class="text-primary" th:text="${model.build.powerUnit.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Мощность:</span>
+                            <span th:text="${model.build.powerUnit.power + ' Вт'}">0 Вт</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Форм фактор:</span>
+                            <span th:text="${model.build.powerUnit.formFactor}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.powerUnit.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/power/{id}(id=${model.build.powerUnit.id})}"
+                           class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+
+                <!-- Motherboard -->
+                <div th:if="${model.build.motherboard != null}" class="card" style="min-width: 280px;">
+                    <div class="card-header border-bottom">
+                        <h5 class="card-title mb-0">Материнская плата</h5>
+                        <small class="text-primary" th:text="${model.build.motherboard.model}">Модель</small>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Макс. частота:</span>
+                            <span th:text="${model.build.motherboard.maxMemoryFreq + ' ГГЦ'}">0 ГГЦ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Макс. объем:</span>
+                            <span th:text="${model.build.motherboard.maxMemoryCapacity + ' ГБ'}">0 ГБ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Кол-во слотов ram:</span>
+                            <span th:text="${model.build.motherboard.memorySlotsCounts}">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Кол-во слотов gpu:</span>
+                            <span th:text="${model.build.motherboard.graphicSlotsCounts}">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Цена:</span>
+                            <span th:text="${model.build.motherboard.cost + ' RUB'}">0 RUB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/product/motherboard/{id}(id=${model.build.motherboard.id})}"
+                           class="btn btn-primary w-100">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fw-bold">Общая стоимость: </span>
+                <span th:text="${model.build.cost + ' RUB'}">0 RUB</span>
+            </div>
+            <button class="btn btn-primary">Оценить</button>
         </div>
     </div>
 </main>
-<footer th:replace="fragments/footer"/>
+<footer th:replace="~{fragments/footer}"/>
 </body>
 </html>

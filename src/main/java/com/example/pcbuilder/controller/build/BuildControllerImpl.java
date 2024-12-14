@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
@@ -44,6 +45,8 @@ public class BuildControllerImpl implements BuildController {
             @ModelAttribute("filter") BuildFilter filter,
             Model model
     ) {
+        Log.d("usersBuilds called");
+
         var filterIn = new BuildFilter(
                 filter.page() != null ? filter.page() : 1,
                 filter.size() != null ? filter.size() : 10,
@@ -68,10 +71,17 @@ public class BuildControllerImpl implements BuildController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
-        return "build/list";
+        return "build/user-builds";
     }
 
     @Override
+    @GetMapping
+    public String list(BuildFilter filter, Model model) {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/{id}")
     public String detail(
             UUID id,
             Model model
@@ -89,7 +99,40 @@ public class BuildControllerImpl implements BuildController {
     }
 
     @Override
-    public String create(BuildForm form, BindingResult bindingResult, Model model) {
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        return null;
+    }
+
+    @Override
+    @PostMapping("/create")
+    public String create(
+            @ModelAttribute("form") BuildForm form,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/{id}/edit")
+    public String editForm(UUID id, Model model) {
+        return null;
+    }
+
+    @Override
+    @PostMapping("/{id}/edit")
+    public String edit(
+            UUID id,
+            @ModelAttribute("form") BuildForm form,
+            BindingResult bindingResult,
+            Model model) {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/{id}/delete")
+    public String delete(UUID id, Model model) {
         return null;
     }
 
