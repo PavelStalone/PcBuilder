@@ -3,6 +3,8 @@ package com.example.pcbuilder.domain.entity;
 import com.example.pcbuilder.domain.entity.product.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Set;
 
@@ -91,6 +93,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "case_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public Case getPcCase() {
         return pcCase;
     }
@@ -179,7 +182,7 @@ public class Build extends BaseEntity {
         this.gpu = gpu;
     }
 
-    @OneToMany(mappedBy = "build", targetEntity = Order.class, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "build", targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     public Set<Order> getOrders() {
         return orders;
     }

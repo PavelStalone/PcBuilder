@@ -52,13 +52,15 @@ public class CaseControllerImpl implements CaseController {
                 filter.costLower(),
                 filter.costUpper()
         );
-        var pages = caseService.getAllByFilter(filterIn)
+        var result = caseService.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(CaseDto.class, CaseViewModel.class).map(it));
 
         var caseVM = new CaseListViewModel(
                 createBaseViewModel("Корпуса"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", caseVM);

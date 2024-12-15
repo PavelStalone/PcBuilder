@@ -1,9 +1,11 @@
 package com.example.pcbuilder.service.product.contract;
 
+import com.example.pcbuilder.domain.PageResult;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CaseFilter;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,5 +17,5 @@ public interface CaseService {
 
     void remove(UUID id);
 
-    Page<CaseDto> getAllByFilter(CaseFilter filter);
+    PageResult<CaseDto> getAllByFilter(CaseFilter filter);
 }

@@ -33,7 +33,7 @@ public class Rate extends BaseEntity {
         this.user = user;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "build_id", referencedColumnName = "id", nullable = false)
     public Build getBuild() {
         return build;

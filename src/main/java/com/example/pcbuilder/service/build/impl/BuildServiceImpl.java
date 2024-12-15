@@ -2,6 +2,7 @@ package com.example.pcbuilder.service.build.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
+import com.example.pcbuilder.domain.PageResult;
 import com.example.pcbuilder.domain.entity.Build;
 import com.example.pcbuilder.domain.repository.build.contract.BuildRepository;
 import com.example.pcbuilder.service.build.contract.BuildService;
@@ -10,7 +11,9 @@ import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@EnableCaching
 public class BuildServiceImpl implements BuildService {
 
     private final BuildRepository repository;
@@ -34,6 +38,7 @@ public class BuildServiceImpl implements BuildService {
     }
 
     @Override
+    @CacheEvict(value = "builds", allEntries = true)
     public UUID create(BuildDto dto) {
         Log.d("create called - dto: " + dto);
 
@@ -41,6 +46,7 @@ public class BuildServiceImpl implements BuildService {
     }
 
     @Override
+    @Cacheable("builds")
     public Optional<BuildDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
@@ -49,6 +55,7 @@ public class BuildServiceImpl implements BuildService {
     }
 
     @Override
+    @CacheEvict(value = "builds", allEntries = true)
     public void remove(UUID id) {
         Log.d("remove called - id: " + id);
 
@@ -56,7 +63,8 @@ public class BuildServiceImpl implements BuildService {
     }
 
     @Override
-    public Page<BuildDto> getAllByFilter(BuildFilter filter) {
+    @Cacheable(value = "builds", key = "#filter.hashCode()")
+    public PageResult<BuildDto> getAllByFilter(BuildFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
@@ -129,7 +137,8 @@ public class BuildServiceImpl implements BuildService {
         };
 
         var pageable = PageRequest.of(filter.page() - 1, filter.size(), sortByCost);
+        var page = repository.getAllByFilter(specification, pageable).map(fromEntity::map);
 
-        return repository.getAllByFilter(specification, pageable).map(fromEntity::map);
+        return new PageResult<>(page.toList(), page.getTotalPages());
     }
 }

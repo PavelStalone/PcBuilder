@@ -2,6 +2,7 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
+import com.example.pcbuilder.domain.PageResult;
 import com.example.pcbuilder.domain.entity.product.Case;
 import com.example.pcbuilder.domain.repository.product.contract.CaseRepository;
 import com.example.pcbuilder.service.product.contract.CaseService;
@@ -10,7 +11,9 @@ import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CaseFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@EnableCaching
 public class CaseServiceImpl implements CaseService {
 
     private final CaseRepository repository;
@@ -34,6 +38,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
+    @CacheEvict(value = "cases", allEntries = true)
     public UUID create(CaseDto dto) {
         Log.d("create called - dto: " + dto);
 
@@ -41,6 +46,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
+    @Cacheable("cases")
     public Optional<CaseDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
@@ -49,6 +55,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
+    @CacheEvict(value = {"cases", "builds"}, allEntries = true)
     public void remove(UUID id) {
         Log.d("remove called - id: " + id);
 
@@ -56,7 +63,8 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public Page<CaseDto> getAllByFilter(CaseFilter filter) {
+    @Cacheable(value = "cases", key = "#filter.hashCode()")
+    public PageResult<CaseDto> getAllByFilter(CaseFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
@@ -98,7 +106,8 @@ public class CaseServiceImpl implements CaseService {
         };
 
         var pageable = PageRequest.of(filter.page() - 1, filter.size(), sortByCost);
+        var page = repository.getAllByFilter(specification, pageable).map(fromEntity::map);
 
-        return repository.getAllByFilter(specification, pageable).map(fromEntity::map);
+        return new PageResult<>(page.toList(), page.getTotalPages());
     }
 }

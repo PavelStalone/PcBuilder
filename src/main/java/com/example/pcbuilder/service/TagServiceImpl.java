@@ -1,17 +1,21 @@
 package com.example.pcbuilder.service;
 
+import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.common.validation.ValidationUtil;
 import com.example.pcbuilder.domain.entity.Tag;
 import com.example.pcbuilder.domain.repository.other.contract.TagRepository;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class TagServiceImpl implements TagService {
 
     private final TagRepository repository;
@@ -24,7 +28,10 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Cacheable("tags")
     public Set<TagDto> getAvailableTags() {
+        Log.d("getAvailableTags called");
+
         return repository.getAvailableTags()
                 .stream()
                 .map((it) -> Mapper.createTypeMap(Tag.class, TagDto.class).map(it))

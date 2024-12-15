@@ -59,13 +59,16 @@ public class BuildControllerImpl implements BuildController {
                 filter.costUpper()
         );
         var availableTags = tagService.getAvailableTags();
-        var builds = buildService.getAllByFilter(filterIn)
+        var result = buildService.getAllByFilter(filterIn);
+        var builds = result
+                .list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(BuildDto.class, BuildViewModel.class).map(it));
         var viewModel = new BuildListViewModel(
                 createBaseViewModel("Подбор сборок"),
                 availableTags,
                 builds.toList(),
-                builds.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);
