@@ -6,6 +6,7 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,11 +22,11 @@ public class Build extends BaseEntity {
     private int ramCounts;
     private int gpuCounts;
     private Processor cpu;
-    private Set<Tag> tags;
+    private List<Tag> tags;
     private int orderCounts;
-    private Set<Rate> rates;
+    private List<Rate> rates;
     private GraphicsCard gpu;
-    private Set<Order> orders;
+    private List<Order> orders;
     private float averageRate;
     private String description;
     private PowerUnit powerUnit;
@@ -146,11 +147,11 @@ public class Build extends BaseEntity {
             joinColumns = @JoinColumn(name = "build_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
-    public Set<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -164,11 +165,11 @@ public class Build extends BaseEntity {
     }
 
     @OneToMany(mappedBy = "build", targetEntity = Rate.class, fetch = FetchType.LAZY)
-    public Set<Rate> getRates() {
+    public List<Rate> getRates() {
         return rates;
     }
 
-    public void setRates(Set<Rate> rates) {
+    public void setRates(List<Rate> rates) {
         this.rates = rates;
     }
 
@@ -183,11 +184,11 @@ public class Build extends BaseEntity {
     }
 
     @OneToMany(mappedBy = "build", targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    public Set<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 

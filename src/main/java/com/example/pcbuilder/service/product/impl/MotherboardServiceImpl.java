@@ -2,6 +2,7 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
+import com.example.pcbuilder.domain.PageResult;
 import com.example.pcbuilder.domain.entity.product.Motherboard;
 import com.example.pcbuilder.domain.repository.product.contract.MotherboardRepository;
 import com.example.pcbuilder.service.product.contract.MotherboardService;
@@ -10,6 +11,8 @@ import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.MotherboardFilt
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -34,6 +37,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
+    @CacheEvict(value = "motherboard", allEntries = true)
     public UUID create(MotherboardDto dto) {
         Log.d("create called - dto: " + dto);
 
@@ -41,6 +45,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
+    @Cacheable("motherboard")
     public Optional<MotherboardDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
@@ -49,6 +54,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
+    @CacheEvict(value = {"motherboard", "builds"}, allEntries = true)
     public void remove(UUID id) {
         Log.d("remove called - id: " + id);
 
@@ -56,7 +62,8 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
-    public Page<MotherboardDto> getAllByFilter(MotherboardFilter filter) {
+    @Cacheable(value = "motherboard", key = "#filter.hashCode()")
+    public PageResult<MotherboardDto> getAllByFilter(MotherboardFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
@@ -166,7 +173,8 @@ public class MotherboardServiceImpl implements MotherboardService {
         };
 
         var pageable = PageRequest.of(filter.page() - 1, filter.size(), sortByCost);
+        var page = repository.getAllByFilter(specification, pageable).map(fromEntity::map);
 
-        return repository.getAllByFilter(specification, pageable).map(fromEntity::map);
+        return new PageResult<>(page.toList(), page.getTotalPages());
     }
 }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mt-5">
+          <div class="card-header bg-primary text-white">
+            <h4 class="card-title mb-0 text-center">Регистрация</h4>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/user/register}"
+                  th:method="post"
+                  th:object="${form}">
+
+              <!-- Username поле -->
+              <div class="mb-3">
+                <label for="username" class="form-label">Имя пользователя</label>
+                <input type="text"
+                       class="form-control"
+                       id="username"
+                       th:field="*{username}"
+                       th:errorclass="is-invalid"
+                       placeholder="Введите имя пользователя">
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('username')}"
+                     th:errors="*{username}">
+                  Username error
+                </div>
+                <div class="form-text">
+                  От 5 до 20 символов
+                </div>
+              </div>
+
+              <!-- Full Name поле -->
+              <div class="mb-3">
+                <label for="fullName" class="form-label">Полное имя</label>
+                <input type="text"
+                       class="form-control"
+                       id="fullName"
+                       th:field="*{fullName}"
+                       th:errorclass="is-invalid"
+                       placeholder="Введите ваше полное имя">
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('fullName')}"
+                     th:errors="*{fullName}">
+                  Full name error
+                </div>
+                <div class="form-text">
+                  От 5 до 20 символов
+                </div>
+              </div>
+
+              <!-- Email поле -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Email адрес</label>
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       th:field="*{email}"
+                       th:errorclass="is-invalid"
+                       placeholder="example@email.com">
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('email')}"
+                     th:errors="*{email}">
+                  Email error
+                </div>
+              </div>
+
+              <!-- Password поле -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       th:field="*{password}"
+                       th:errorclass="is-invalid"
+                       placeholder="Введите пароль">
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}">
+                  Password error
+                </div>
+                <div class="form-text">
+                  От 5 до 20 символов
+                </div>
+              </div>
+
+              <!-- Confirm Password поле -->
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Подтверждение пароля</label>
+                <input type="password"
+                       class="form-control"
+                       id="confirmPassword"
+                       th:field="*{confirmPassword}"
+                       th:errorclass="is-invalid"
+                       placeholder="Повторите пароль">
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('confirmPassword')}"
+                     th:errors="*{confirmPassword}">
+                  Confirm password error
+                </div>
+              </div>
+
+              <!-- Admin checkbox -->
+              <div class="mb-3 form-check">
+                <input type="checkbox"
+                       class="form-check-input"
+                       id="admin"
+                       th:field="*{admin}">
+                <label class="form-check-label" for="admin">
+                  Зарегистрироваться как администратор
+                </label>
+              </div>
+
+              <!-- Кнопки -->
+              <div class="d-grid gap-2">
+                <button type="submit"
+                        class="btn btn-primary">
+                  Зарегистрироваться
+                </button>
+                <a th:href="@{/user/login}"
+                   class="btn btn-outline-primary">
+                  Уже есть аккаунт? Войти
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

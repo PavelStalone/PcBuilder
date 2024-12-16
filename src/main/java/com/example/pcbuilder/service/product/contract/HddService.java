@@ -1,5 +1,6 @@
 package com.example.pcbuilder.service.product.contract;
 
+import com.example.pcbuilder.domain.PageResult;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.HddFilter;
 import org.springframework.data.domain.Page;
@@ -15,5 +16,5 @@ public interface HddService {
 
     void remove(UUID id);
 
-    Page<HddDto> getAllByFilter(HddFilter filter);
+    PageResult<HddDto> getAllByFilter(HddFilter filter);
 }

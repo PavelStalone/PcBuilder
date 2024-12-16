@@ -5,12 +5,14 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.CpuService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.CpuController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CpuFilter;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.pccase.CaseViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,13 +61,15 @@ public class CpuControllerImpl implements CpuController {
                 filter.threadLower(),
                 filter.threadUpper()
         );
-        var cpuPages = cpuService.getAllByFilter(filterIn)
+        var result = cpuService.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(CpuDto.class, CpuViewModel.class).map(it));
 
         var cpuVM = new CpuListViewModel(
                 createBaseViewModel("Процессоры"),
-                cpuPages.toList(),
-                cpuPages.getTotalPages()
+                pages.toList(),
+                result.pages()
         );
 
         model.addAttribute("model", cpuVM);

@@ -5,8 +5,10 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.HddService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.HddController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.GpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.HddFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddListViewModel;
@@ -57,13 +59,15 @@ public class HddControllerImpl implements HddController {
                 filter.rotationLower(),
                 filter.rotationUpper()
         );
-        var pages = service.getAllByFilter(filterIn)
+        var result = service.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(HddDto.class, HddViewModel.class).map(it));
 
         var viewModel = new HddListViewModel(
                 createBaseViewModel("Жесткие диски"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);

@@ -5,8 +5,10 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.MotherboardService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.MotherboardController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.MotherboardDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.MotherboardFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardListViewModel;
@@ -59,13 +61,15 @@ public class MotherboardControllerImpl implements MotherboardController {
                 filter.maxMemoryCapacityLower(),
                 filter.maxMemoryCapacityUpper()
         );
-        var pages = service.getAllByFilter(filterIn)
+        var result = service.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(MotherboardDto.class, MotherboardViewModel.class).map(it));
 
         var viewModel = new MotherboardListViewModel(
                 createBaseViewModel("Материнские платы"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);

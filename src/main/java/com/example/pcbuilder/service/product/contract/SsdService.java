@@ -1,5 +1,6 @@
 package com.example.pcbuilder.service.product.contract;
 
+import com.example.pcbuilder.domain.PageResult;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.SsdDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.SsdFilter;
 import org.springframework.data.domain.Page;
@@ -15,5 +16,5 @@ public interface SsdService {
 
     void remove(UUID id);
 
-    Page<SsdDto> getAllByFilter(SsdFilter filter);
+    PageResult<SsdDto> getAllByFilter(SsdFilter filter);
 }

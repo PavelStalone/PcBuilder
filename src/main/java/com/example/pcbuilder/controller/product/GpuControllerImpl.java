@@ -5,8 +5,10 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.GpuService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.GpuController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.GpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.GpuFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuListViewModel;
@@ -56,13 +58,15 @@ public class GpuControllerImpl implements GpuController {
                 filter.memoryLower(),
                 filter.memoryUpper()
         );
-        var pages = service.getAllByFilter(filterIn)
+        var result = service.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(GpuDto.class, GpuViewModel.class).map(it));
 
         var viewModel = new GpuListViewModel(
                 createBaseViewModel("Видеокарты"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);

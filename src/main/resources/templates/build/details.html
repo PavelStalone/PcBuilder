@@ -5,7 +5,7 @@
 <div th:replace="~{fragments/navbar}">Navbar</div>
 <main class="flex-shrink-0">
     <div class="container">
-        <h1 class="text-center text-dark mt-5" th:text="${'Сборка от: ' + model.build.owner.nickName}">
+        <h1 class="text-center text-dark mt-5" th:text="${'Сборка от: ' + model.build.owner.username}">
             Подробная информация о сборке
         </h1>
 

@@ -8,6 +8,7 @@ import edu.rutmiit.example.pcbuildercontracts.controllers.product.GpuController;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.RamController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.GpuDto;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.PowerDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.RamDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.GpuFilter;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.RamFilter;
@@ -15,6 +16,7 @@ import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuDetai
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.ram.RamDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.ram.RamInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.ram.RamListViewModel;
@@ -63,13 +65,15 @@ public class RamControllerImpl implements RamController {
                 filter.memoryLower(),
                 filter.memoryUpper()
         );
-        var pages = service.getAllByFilter(filterIn)
+        var result = service.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(RamDto.class, RamViewModel.class).map(it));
 
         var viewModel = new RamListViewModel(
                 createBaseViewModel("Оперативная память"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);

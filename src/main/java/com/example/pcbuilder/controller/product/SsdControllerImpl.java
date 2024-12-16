@@ -57,13 +57,15 @@ public class SsdControllerImpl implements SsdController {
                 filter.maxWriteLower(),
                 filter.maxWriteUpper()
         );
-        var pages = service.getAllByFilter(filterIn)
+        var result = service.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(SsdDto.class, SsdViewModel.class).map(it));
 
         var viewModel = new SsdListViewModel(
                 createBaseViewModel("Ssd диски"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);

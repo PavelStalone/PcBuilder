@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head}"/>
 <body class="d-flex flex-column h-100">
 <div th:replace="~{fragments/navbar}">Navbar</div>
@@ -138,7 +138,7 @@
                     </ul>
                 </nav>
 
-                <div class="mt-4">
+                <div class="mt-4" sec:authorize="hasAnyRole('ADMIN')">
                     <a class="btn btn-success" th:href="@{/product/ram/create}">Добавить память</a>
                 </div>
             </div>

@@ -3,6 +3,7 @@ package com.example.pcbuilder.service.product.impl;
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.common.validation.ValidationUtil;
+import com.example.pcbuilder.domain.PageResult;
 import com.example.pcbuilder.domain.entity.product.Processor;
 import com.example.pcbuilder.domain.repository.product.contract.CpuRepository;
 import com.example.pcbuilder.service.product.contract.CpuService;
@@ -11,6 +12,8 @@ import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CpuFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -40,6 +43,7 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
+    @CacheEvict(value = "cpu", allEntries = true)
     public UUID create(CpuDto cpu) {
         Log.d("create called - dto: " + cpu);
 
@@ -47,6 +51,7 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
+    @Cacheable("cpu")
     public Optional<CpuDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
@@ -55,6 +60,7 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
+    @CacheEvict(value = {"cpu", "builds"}, allEntries = true)
     public void remove(UUID id) {
         Log.d("remove called - id: " + id);
 
@@ -62,7 +68,8 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
-    public Page<CpuDto> getAllByFilter(CpuFilter filter) {
+    @Cacheable(value = "cpu", key = "#filter.hashCode()")
+    public PageResult<CpuDto> getAllByFilter(CpuFilter filter) {
         Log.d("getAllByFilter called - cpuFilter: " + filter);
 
         var sortByCost = Sort.by("cost");
@@ -184,7 +191,8 @@ public class CpuServiceImpl implements CpuService {
         };
 
         var pageable = PageRequest.of(filter.page() - 1, filter.size(), sortByCost);
+        var page = repository.getAllByFilter(specification, pageable).map(fromEntity::map);
 
-        return repository.getAllByFilter(specification, pageable).map(fromEntity::map);
+        return new PageResult<>(page.toList(), page.getTotalPages());
     }
 }

@@ -1,19 +1,19 @@
 package com.example.pcbuilder.common.fake;
 
-import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.data.model.BuildPrepare;
 import com.example.pcbuilder.data.model.RatePrepare;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.RateDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
+import edu.rutmiit.example.pcbuildercontracts.dto.user.UserDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 
 import static com.example.pcbuilder.common.fake.FakeData.*;
 import static com.example.pcbuilder.common.fake.FakerUtil.faker;
@@ -166,9 +166,11 @@ public class FakerConfig {
         return () -> {
             var user = new UserDto();
 
-            user.setDate(faker.date().birthday());
             user.setEmail(faker.internet().emailAddress());
-            user.setNickName(faker.name().username());
+            user.setDate(LocalDate.ofInstant(faker.date().birthday().toInstant(), TimeZone.getDefault().toZoneId()));
+            user.setUsername(faker.name().username());
+            user.setFullName(faker.name().fullName());
+            user.setPassword(faker.phoneNumber().phoneNumber());
 
             return user;
         };

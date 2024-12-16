@@ -1,5 +1,6 @@
 package com.example.pcbuilder.service.product.contract;
 
+import com.example.pcbuilder.domain.PageResult;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.PowerDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.PowerFilter;
 import org.springframework.data.domain.Page;
@@ -15,5 +16,5 @@ public interface PowerService {
 
     void remove(UUID id);
 
-    Page<PowerDto> getAllByFilter(PowerFilter filter);
+    PageResult<PowerDto> getAllByFilter(PowerFilter filter);
 }

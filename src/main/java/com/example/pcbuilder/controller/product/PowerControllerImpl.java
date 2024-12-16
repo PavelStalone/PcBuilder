@@ -5,8 +5,10 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.PowerService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.PowerController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.MotherboardDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.PowerDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.PowerFilter;
+import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerListViewModel;
@@ -53,13 +55,15 @@ public class PowerControllerImpl implements PowerController {
                 filter.powerLower(),
                 filter.powerUpper()
         );
-        var pages = service.getAllByFilter(filterIn)
+        var result = service.getAllByFilter(filterIn);
+        var pages = result.list()
+                .stream()
                 .map((it) -> Mapper.createTypeMap(PowerDto.class, PowerViewModel.class).map(it));
 
         var viewModel = new PowerListViewModel(
                 createBaseViewModel("Блоки питания"),
                 pages.toList(),
-                pages.getTotalPages()
+                result.pages()
         );
 
         model.addAttribute("model", viewModel);

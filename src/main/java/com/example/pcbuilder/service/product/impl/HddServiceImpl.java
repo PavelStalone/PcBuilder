@@ -2,19 +2,17 @@ package com.example.pcbuilder.service.product.impl;
 
 import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.common.mapper.Mapper;
-import com.example.pcbuilder.domain.entity.product.Case;
+import com.example.pcbuilder.domain.PageResult;
 import com.example.pcbuilder.domain.entity.product.HDD;
-import com.example.pcbuilder.domain.repository.product.contract.CaseRepository;
 import com.example.pcbuilder.domain.repository.product.contract.HddRepository;
-import com.example.pcbuilder.service.product.contract.CaseService;
 import com.example.pcbuilder.service.product.contract.HddService;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CaseFilter;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.HddFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -39,6 +37,7 @@ public class HddServiceImpl implements HddService {
     }
 
     @Override
+    @CacheEvict(value = "hdd", allEntries = true)
     public UUID create(HddDto dto) {
         Log.d("create called - dto: " + dto);
 
@@ -46,6 +45,7 @@ public class HddServiceImpl implements HddService {
     }
 
     @Override
+    @Cacheable("hdd")
     public Optional<HddDto> getById(UUID id) {
         Log.d("getById called - id: " + id);
 
@@ -54,6 +54,7 @@ public class HddServiceImpl implements HddService {
     }
 
     @Override
+    @CacheEvict(value = {"hdd", "builds"}, allEntries = true)
     public void remove(UUID id) {
         Log.d("remove called - id: " + id);
 
@@ -61,7 +62,8 @@ public class HddServiceImpl implements HddService {
     }
 
     @Override
-    public Page<HddDto> getAllByFilter(HddFilter filter) {
+    @Cacheable(value = "hdd", key = "#filter.hashCode()")
+    public PageResult<HddDto> getAllByFilter(HddFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
         var sortByCost = Sort.by("cost");
@@ -154,7 +156,8 @@ public class HddServiceImpl implements HddService {
         };
 
         var pageable = PageRequest.of(filter.page() - 1, filter.size(), sortByCost);
+        var page = repository.getAllByFilter(specification, pageable).map(fromEntity::map);
 
-        return repository.getAllByFilter(specification, pageable).map(fromEntity::map);
+        return new PageResult<>(page.toList(), page.getTotalPages());
     }
 }

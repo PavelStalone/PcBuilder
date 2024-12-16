@@ -1,8 +1,8 @@
 package com.example.pcbuilder.service.product.contract;
 
+import com.example.pcbuilder.domain.PageResult;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CpuFilter;
-import org.springframework.data.domain.Page;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,5 +15,5 @@ public interface CpuService {
 
     void remove(UUID id);
 
-    Page<CpuDto> getAllByFilter(CpuFilter filter);
+    PageResult<CpuDto> getAllByFilter(CpuFilter filter);
 }

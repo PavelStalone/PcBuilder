@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head}"/>
 <body class="d-flex flex-column h-100">
 <div th:replace="fragments/navbar">Navbar</div>
@@ -51,7 +51,7 @@
 
                     <div class="card-footer bg-light">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
+                            <div class="btn-group" sec:authorize="hasAnyRole('ADMIN')">
                                 <a th:href="@{/product/case/{id}/edit(id=${model.pcCase.id})}" class="btn btn-primary">
                                     Редактировать
                                 </a>

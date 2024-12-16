@@ -23,7 +23,7 @@ public class Rate extends BaseEntity {
         this.rate = rate;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUser() {
         return user;

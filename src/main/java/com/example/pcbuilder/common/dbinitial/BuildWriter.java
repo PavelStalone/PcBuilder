@@ -7,8 +7,8 @@ import com.example.pcbuilder.data.model.BuildPrepare;
 import com.example.pcbuilder.service.admin.contract.AdminService;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
+import edu.rutmiit.example.pcbuildercontracts.dto.user.UserDto;
 
 import java.util.stream.Stream;
 

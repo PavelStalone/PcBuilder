@@ -8,8 +8,8 @@ import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.TagDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.other.OrderDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.other.RateDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
+import edu.rutmiit.example.pcbuildercontracts.dto.user.UserDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

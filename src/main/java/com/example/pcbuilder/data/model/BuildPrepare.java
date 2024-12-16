@@ -1,8 +1,8 @@
 package com.example.pcbuilder.data.model;
 
 import edu.rutmiit.example.pcbuildercontracts.dto.build.BuildDto;
-import edu.rutmiit.example.pcbuildercontracts.dto.other.UserDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.*;
+import edu.rutmiit.example.pcbuildercontracts.dto.user.UserDto;
 
 public record BuildPrepare(
         BuildDto build,

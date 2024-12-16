@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg bg-light" xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -16,6 +17,27 @@
             <li class="nav-item">
                 <a class="nav-item nav-link text-dark" href="/product">Комплектующие</a>
             </li>
+        </ul>
+
+        <ul class="navbar-nav">
+            <div sec:authorize="!isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/user/login">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/user/register">Регистрация</a>
+                </li>
+            </div>
+
+            <div sec:authorize="isAuthenticated()">
+                <li>
+                    <form th:action="@{/user/logout}" method="post" class="dropdown-item p-0">
+                        <button type="submit" class="btn btn-link text-dark text-decoration-none w-100 text-start px-3">
+                            Выйти
+                        </button>
+                    </form>
+                </li>
+            </div>
         </ul>
     </div>
 </nav>

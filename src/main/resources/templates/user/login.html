@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card mt-5">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="card-title mb-0 text-center">Вход в систему</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/user/login}"
+                              th:method="post">
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input id="username"
+                                       name="username"
+                                       th:value="${username}"
+                                       type="text"
+                                       class="form-control"
+                                       placeholder="username">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Пароль</label>
+                                <input id="password"
+                                       name="password"
+                                       type="password"
+                                       class="form-control"
+                                       aria-describedby="passwordHelp"
+                                       placeholder="Введите пароль">
+                                <div class="form-text">
+                                    Пароль должен содержать от 5 до 20 символов
+                                </div>
+                            </div>
+
+                            <p class="text-danger" th:if="${badCredentials}">
+                                Invalid username or password.
+                            </p>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit"
+                                        class="btn btn-primary">
+                                    Войти
+                                </button>
+                                <a th:href="@{/user/register}"
+                                   class="btn btn-outline-primary">
+                                    Зарегистрироваться
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>
