@@ -37,7 +37,7 @@ public class RamServiceImpl implements RamService {
     }
 
     @Override
-    @CacheEvict(value = "ram", allEntries = true)
+    @CacheEvict(value = {"ram", "builds"}, allEntries = true)
     public UUID create(RamDto dto) {
         Log.d("create called - dto: " + dto);
 

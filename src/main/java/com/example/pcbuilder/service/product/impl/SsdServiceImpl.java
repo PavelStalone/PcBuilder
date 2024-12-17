@@ -13,7 +13,6 @@ import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -37,7 +36,7 @@ public class SsdServiceImpl implements SsdService {
     }
 
     @Override
-    @CacheEvict(value = "ssd", allEntries = true)
+    @CacheEvict(value = {"ssd", "builds"}, allEntries = true)
     public UUID create(SsdDto dto) {
         Log.d("create called - dto: " + dto);
 

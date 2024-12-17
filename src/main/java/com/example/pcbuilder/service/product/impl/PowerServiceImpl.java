@@ -13,7 +13,6 @@ import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -37,7 +36,7 @@ public class PowerServiceImpl implements PowerService {
     }
 
     @Override
-    @CacheEvict(value = "power", allEntries = true)
+    @CacheEvict(value = {"power", "builds"}, allEntries = true)
     public UUID create(PowerDto dto) {
         Log.d("create called - dto: " + dto);
 

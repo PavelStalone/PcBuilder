@@ -43,7 +43,7 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
-    @CacheEvict(value = "cpu", allEntries = true)
+    @CacheEvict(value = {"cpu", "builds"}, allEntries = true)
     public UUID create(CpuDto cpu) {
         Log.d("create called - dto: " + cpu);
 

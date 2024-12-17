@@ -37,7 +37,7 @@ public class GpuServiceImpl implements GpuService {
     }
 
     @Override
-    @CacheEvict(value = "gpu", allEntries = true)
+    @CacheEvict(value = {"gpu", "builds"}, allEntries = true)
     public UUID create(GpuDto dto) {
         Log.d("create called - dto: " + dto);
 

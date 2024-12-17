@@ -37,7 +37,7 @@ public class HddServiceImpl implements HddService {
     }
 
     @Override
-    @CacheEvict(value = "hdd", allEntries = true)
+    @CacheEvict(value = {"hdd", "builds"}, allEntries = true)
     public UUID create(HddDto dto) {
         Log.d("create called - dto: " + dto);
 

@@ -38,7 +38,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    @CacheEvict(value = "cases", allEntries = true)
+    @CacheEvict(value = {"cases", "builds"}, allEntries = true)
     public UUID create(CaseDto dto) {
         Log.d("create called - dto: " + dto);
 

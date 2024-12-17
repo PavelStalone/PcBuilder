@@ -37,6 +37,13 @@ public class RedisConfig {
                 .withCacheConfiguration("cases", myDefaultCacheConfig(Duration.ofMinutes(10)))
                 .withCacheConfiguration("tags", myDefaultCacheConfig(Duration.ofMinutes(10)))
                 .withCacheConfiguration("builds", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("cpu", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("gpu", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("hdd", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("motherboard", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("power", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("ram", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("ssd", myDefaultCacheConfig(Duration.ofMinutes(10)))
                 .build();
     }
 

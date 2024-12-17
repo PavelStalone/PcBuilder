@@ -37,7 +37,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
-    @CacheEvict(value = "motherboard", allEntries = true)
+    @CacheEvict(value = {"motherboard", "builds"}, allEntries = true)
     public UUID create(MotherboardDto dto) {
         Log.d("create called - dto: " + dto);
 
