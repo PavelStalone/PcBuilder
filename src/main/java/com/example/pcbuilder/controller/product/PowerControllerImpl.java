@@ -69,6 +69,7 @@ public class PowerControllerImpl implements PowerController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open power list on %d page", filterIn.page());
         return "product/power/list";
     }
 
@@ -87,6 +88,7 @@ public class PowerControllerImpl implements PowerController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for power with id: " + id);
         return "product/power/details";
     }
 
@@ -103,6 +105,7 @@ public class PowerControllerImpl implements PowerController {
         model.addAttribute("model", details);
         model.addAttribute("form", new PowerDto());
 
+        Log.i("Open creating page for power");
         return "product/power/create";
     }
 
@@ -129,6 +132,7 @@ public class PowerControllerImpl implements PowerController {
 
         var id = service.create(form);
 
+        Log.i("Create new power with id: " + id);
         return "redirect:/product/power/" + id;
     }
 
@@ -149,6 +153,7 @@ public class PowerControllerImpl implements PowerController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for power with id: " + id);
         return "product/power/edit";
     }
 
@@ -176,6 +181,7 @@ public class PowerControllerImpl implements PowerController {
 
         service.create(form);
 
+        Log.i("Edit power with id: " + id);
         return "redirect:/product/power/" + id;
     }
 
@@ -189,6 +195,7 @@ public class PowerControllerImpl implements PowerController {
 
         service.remove(id);
 
+        Log.i("Remove power with id: " + id);
         return "redirect:/product/power";
     }
 

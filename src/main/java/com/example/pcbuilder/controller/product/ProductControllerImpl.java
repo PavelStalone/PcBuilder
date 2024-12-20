@@ -1,5 +1,6 @@
 package com.example.pcbuilder.controller.product;
 
+import com.example.pcbuilder.common.log.Log;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.ProductController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.ProductListViewModel;
@@ -16,6 +17,8 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     public String productList(Model model) {
+        Log.d("productList called");
+
         var productList = new ProductListViewModel(
                 createBaseViewModel("Комплектующие"),
                 List.of(
@@ -31,6 +34,7 @@ public class ProductControllerImpl implements ProductController {
         );
         model.addAttribute("model", productList);
 
+        Log.i("Open products list");
         return "product/product-list";
     }
 

@@ -45,7 +45,7 @@ public class BuildControllerImpl implements BuildController {
             @ModelAttribute("filter") BuildFilter filter,
             Model model
     ) {
-        Log.d("usersBuilds called");
+        Log.d("usersBuilds called - filter: " + filter);
 
         var filterIn = new BuildFilter(
                 filter.page() != null ? filter.page() : 1,
@@ -74,6 +74,7 @@ public class BuildControllerImpl implements BuildController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open users builds on %d page", filterIn.page());
         return "build/user-builds";
     }
 
@@ -98,6 +99,7 @@ public class BuildControllerImpl implements BuildController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for build with id: " + id);
         return "build/details";
     }
 

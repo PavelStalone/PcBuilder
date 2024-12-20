@@ -75,6 +75,7 @@ public class MotherboardControllerImpl implements MotherboardController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open motherboard list on %d page", filterIn.page());
         return "product/motherboard/list";
     }
 
@@ -93,6 +94,7 @@ public class MotherboardControllerImpl implements MotherboardController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for motherboard with id: " + id);
         return "product/motherboard/details";
     }
 
@@ -113,6 +115,7 @@ public class MotherboardControllerImpl implements MotherboardController {
         model.addAttribute("model", details);
         model.addAttribute("form", new MotherboardDto());
 
+        Log.i("Open creating page for motherboard");
         return "product/motherboard/create";
     }
 
@@ -143,6 +146,7 @@ public class MotherboardControllerImpl implements MotherboardController {
 
         var id = service.create(form);
 
+        Log.i("Create new motherboard with id: " + id);
         return "redirect:/product/motherboard/" + id;
     }
 
@@ -167,6 +171,7 @@ public class MotherboardControllerImpl implements MotherboardController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for motherboard with id: " + id);
         return "product/motherboard/edit";
     }
 
@@ -198,6 +203,7 @@ public class MotherboardControllerImpl implements MotherboardController {
 
         service.create(form);
 
+        Log.i("Edit motherboard with id: " + id);
         return "redirect:/product/motherboard/" + id;
     }
 
@@ -211,6 +217,7 @@ public class MotherboardControllerImpl implements MotherboardController {
 
         service.remove(id);
 
+        Log.i("Remove motherboard with id: " + id);
         return "redirect:/product/motherboard";
     }
 

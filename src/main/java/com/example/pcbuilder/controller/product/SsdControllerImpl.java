@@ -71,6 +71,7 @@ public class SsdControllerImpl implements SsdController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open ssd list on %d page", filterIn.page());
         return "product/ssd/list";
     }
 
@@ -89,6 +90,7 @@ public class SsdControllerImpl implements SsdController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for ssd with id: " + id);
         return "product/ssd/details";
     }
 
@@ -105,6 +107,7 @@ public class SsdControllerImpl implements SsdController {
         model.addAttribute("model", details);
         model.addAttribute("form", new SsdDto());
 
+        Log.i("Open creating page for ssd");
         return "product/ssd/create";
     }
 
@@ -131,6 +134,7 @@ public class SsdControllerImpl implements SsdController {
 
         var id = service.create(form);
 
+        Log.i("Create new ssd with id: " + id);
         return "redirect:/product/ssd/" + id;
     }
 
@@ -151,6 +155,7 @@ public class SsdControllerImpl implements SsdController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for ssd with id: " + id);
         return "product/ssd/edit";
     }
 
@@ -178,6 +183,7 @@ public class SsdControllerImpl implements SsdController {
 
         service.create(form);
 
+        Log.i("Edit ssd with id: " + id);
         return "redirect:/product/ssd/" + id;
     }
 
@@ -191,6 +197,7 @@ public class SsdControllerImpl implements SsdController {
 
         service.remove(id);
 
+        Log.i("Remove ssd with id: " + id);
         return "redirect:/product/ssd";
     }
 

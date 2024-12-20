@@ -33,7 +33,7 @@ public class DbInitRunner implements CommandLineRunner {
         initRoles();
         randomWriters.forEach((d) -> d.write(50));
 
-        System.out.println("Done");
+        Log.d("DataBase runner finished");
     }
 
     private void initRoles() {

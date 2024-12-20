@@ -79,6 +79,7 @@ public class RamControllerImpl implements RamController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open ram list on %d page", filterIn.page());
         return "product/ram/list";
     }
 
@@ -97,6 +98,7 @@ public class RamControllerImpl implements RamController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for ram with id: " + id);
         return "product/ram/details";
     }
 
@@ -114,6 +116,7 @@ public class RamControllerImpl implements RamController {
         model.addAttribute("model", details);
         model.addAttribute("form", new RamDto());
 
+        Log.i("Open creating page for ram");
         return "product/ram/create";
     }
 
@@ -141,6 +144,7 @@ public class RamControllerImpl implements RamController {
 
         var id = service.create(form);
 
+        Log.i("Create new ram with id: " + id);
         return "redirect:/product/ram/" + id;
     }
 
@@ -162,6 +166,7 @@ public class RamControllerImpl implements RamController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for ram with id: " + id);
         return "product/ram/edit";
     }
 
@@ -190,6 +195,7 @@ public class RamControllerImpl implements RamController {
 
         service.create(form);
 
+        Log.i("Edit ram with id: " + id);
         return "redirect:/product/ram/" + id;
     }
 
@@ -203,6 +209,7 @@ public class RamControllerImpl implements RamController {
 
         service.remove(id);
 
+        Log.i("Remove ram with id: " + id);
         return "redirect:/product/ram";
     }
 

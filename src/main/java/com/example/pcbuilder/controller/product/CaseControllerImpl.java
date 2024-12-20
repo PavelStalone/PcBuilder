@@ -66,6 +66,7 @@ public class CaseControllerImpl implements CaseController {
         model.addAttribute("model", caseVM);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open cases list on %d page", filterIn.page());
         return "product/case/list";
     }
 
@@ -84,6 +85,7 @@ public class CaseControllerImpl implements CaseController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for case with id: " + id);
         return "product/case/details";
     }
 
@@ -101,6 +103,7 @@ public class CaseControllerImpl implements CaseController {
         model.addAttribute("model", details);
         model.addAttribute("form", new CaseDto());
 
+        Log.i("Open creating page for case");
         return "product/case/create";
     }
 
@@ -128,6 +131,7 @@ public class CaseControllerImpl implements CaseController {
 
         var id = caseService.create(form);
 
+        Log.i("Create new case with id: " + id);
         return "redirect:/product/case/" + id;
     }
 
@@ -149,6 +153,7 @@ public class CaseControllerImpl implements CaseController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for case with id: " + id);
         return "product/case/edit";
     }
 
@@ -177,6 +182,7 @@ public class CaseControllerImpl implements CaseController {
 
         caseService.create(form);
 
+        Log.i("Edit case with id: " + id);
         return "redirect:/product/case/" + id;
     }
 
@@ -190,6 +196,7 @@ public class CaseControllerImpl implements CaseController {
 
         caseService.remove(id);
 
+        Log.i("Remove case with id: " + id);
         return "redirect:/product/case";
     }
 

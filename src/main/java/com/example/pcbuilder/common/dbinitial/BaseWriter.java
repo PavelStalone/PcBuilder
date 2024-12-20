@@ -27,7 +27,7 @@ public class BaseWriter<T> implements DbRandomWriter {
         var itemCounts = itemService.countsItems();
 
         if (itemCounts <= 0 && repeat > 0) {
-            Log.d("%s not found, starting writing...", entityName);
+            Log.v("%s not found, starting writing...", entityName);
 
             var items = Stream.generate(itemFiller::getFill)
                     .limit(repeat)
@@ -36,9 +36,9 @@ public class BaseWriter<T> implements DbRandomWriter {
             if (items.size() == 1) itemService.addItem(items.get(0));
             else itemService.addAll(items);
 
-            Log.d("%s finished", entityName);
+            Log.v("%s finished", entityName);
         } else {
-            Log.d("%s already have %d items, skipping...", entityName, itemCounts);
+            Log.v("%s already have %d items, skipping...", entityName, itemCounts);
         }
     }
 }

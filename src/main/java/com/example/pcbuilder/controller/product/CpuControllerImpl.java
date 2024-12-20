@@ -75,6 +75,7 @@ public class CpuControllerImpl implements CpuController {
         model.addAttribute("model", cpuVM);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open cpu list on %d page", filterIn.page());
         return "product/cpu/list";
     }
 
@@ -93,6 +94,7 @@ public class CpuControllerImpl implements CpuController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for cpu with id: " + id);
         return "product/cpu/details";
     }
 
@@ -109,6 +111,7 @@ public class CpuControllerImpl implements CpuController {
         model.addAttribute("model", details);
         model.addAttribute("form", new CpuDto());
 
+        Log.i("Open creating page for cpu");
         return "product/cpu/create";
     }
 
@@ -135,6 +138,7 @@ public class CpuControllerImpl implements CpuController {
 
         var id = cpuService.create(form);
 
+        Log.i("Create new cpu with id: " + id);
         return "redirect:/product/cpu/" + id;
     }
 
@@ -155,6 +159,7 @@ public class CpuControllerImpl implements CpuController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for cpu with id: " + id);
         return "product/cpu/edit";
     }
 
@@ -182,6 +187,7 @@ public class CpuControllerImpl implements CpuController {
 
         cpuService.create(form);
 
+        Log.i("Edit cpu with id: " + id);
         return "redirect:/product/cpu/" + id;
     }
 
@@ -192,6 +198,7 @@ public class CpuControllerImpl implements CpuController {
 
         cpuService.remove(id);
 
+        Log.i("Remove cpu with id: " + id);
         return "redirect:/product/cpu";
     }
 

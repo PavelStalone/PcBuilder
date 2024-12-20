@@ -4,7 +4,6 @@ import com.example.pcbuilder.common.log.Log;
 import com.example.pcbuilder.service.user.contract.AuthService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.user.AuthController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.user.UserLoginDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.user.UserRegistrationDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.user.viewmodel.UserLoginInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.user.viewmodel.UserRegisterInputViewModel;
@@ -78,6 +77,8 @@ public class AuthControllerImpl implements AuthController {
             String username,
             RedirectAttributes redirectAttributes
     ) {
+        Log.d("onFailedLogin called - username: " + username);
+
         redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
         redirectAttributes.addFlashAttribute("badCredentials", true);
 

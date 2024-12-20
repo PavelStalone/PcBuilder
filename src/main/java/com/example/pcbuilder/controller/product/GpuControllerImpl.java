@@ -72,6 +72,7 @@ public class GpuControllerImpl implements GpuController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open gpu list on %d page", filterIn.page());
         return "product/gpu/list";
     }
 
@@ -90,6 +91,7 @@ public class GpuControllerImpl implements GpuController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for gpu with id: " + id);
         return "product/gpu/details";
     }
 
@@ -107,6 +109,7 @@ public class GpuControllerImpl implements GpuController {
         model.addAttribute("model", details);
         model.addAttribute("form", new GpuDto());
 
+        Log.i("Open creating page for gpu");
         return "product/gpu/create";
     }
 
@@ -134,6 +137,7 @@ public class GpuControllerImpl implements GpuController {
 
         var id = service.create(form);
 
+        Log.i("Create new gpu with id: " + id);
         return "redirect:/product/gpu/" + id;
     }
 
@@ -155,6 +159,7 @@ public class GpuControllerImpl implements GpuController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for gpu with id: " + id);
         return "product/gpu/edit";
     }
 
@@ -183,6 +188,7 @@ public class GpuControllerImpl implements GpuController {
 
         service.create(form);
 
+        Log.i("Edit gpu with id: " + id);
         return "redirect:/product/gpu/" + id;
     }
 
@@ -196,6 +202,7 @@ public class GpuControllerImpl implements GpuController {
 
         service.remove(id);
 
+        Log.i("Remove gpu with id: " + id);
         return "redirect:/product/gpu";
     }
 

@@ -73,6 +73,7 @@ public class HddControllerImpl implements HddController {
         model.addAttribute("model", viewModel);
         model.addAttribute("filter", filterIn);
 
+        Log.i("Open hdd list on %d page", filterIn.page());
         return "product/hdd/list";
     }
 
@@ -91,6 +92,7 @@ public class HddControllerImpl implements HddController {
 
         model.addAttribute("model", details);
 
+        Log.i("Open detail for hdd with id: " + id);
         return "product/hdd/details";
     }
 
@@ -107,6 +109,7 @@ public class HddControllerImpl implements HddController {
         model.addAttribute("model", details);
         model.addAttribute("form", new HddDto());
 
+        Log.i("Open creating page for hdd");
         return "product/hdd/create";
     }
 
@@ -133,6 +136,7 @@ public class HddControllerImpl implements HddController {
 
         var id = service.create(form);
 
+        Log.i("Create new hdd with id: " + id);
         return "redirect:/product/hdd/" + id;
     }
 
@@ -153,6 +157,7 @@ public class HddControllerImpl implements HddController {
         model.addAttribute("model", details);
         model.addAttribute("form", form);
 
+        Log.i("Open editing page for hdd with id: " + id);
         return "product/hdd/edit";
     }
 
@@ -180,6 +185,7 @@ public class HddControllerImpl implements HddController {
 
         service.create(form);
 
+        Log.i("Edit hdd with id: " + id);
         return "redirect:/product/hdd/" + id;
     }
 
@@ -193,6 +199,7 @@ public class HddControllerImpl implements HddController {
 
         service.remove(id);
 
+        Log.i("Remove case with id: " + id);
         return "redirect:/product/hdd";
     }
 

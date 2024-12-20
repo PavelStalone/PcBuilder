@@ -38,7 +38,7 @@ public class Mapper {
                     (MapperConfigure<Build, BuildDto>) mapper -> {
                         var dtoMapper = Mapper.createTypeMap(Tag.class, TagDto.class);
 
-                        Converter<List<Tag>, Set<TagDto>> tagsConverter = c -> c.getSource() != null ? c.getSource().stream().map(dtoMapper::map).collect(Collectors.toSet()): new HashSet<>();
+                        Converter<List<Tag>, Set<TagDto>> tagsConverter = c -> c.getSource() != null ? c.getSource().stream().map(dtoMapper::map).collect(Collectors.toSet()) : new HashSet<>();
 
                         return mapper.addMappings(map -> map.using(tagsConverter).map(Build::getTags, BuildDto::setTags));
                     }
@@ -48,7 +48,7 @@ public class Mapper {
                     (MapperConfigure<BuildDto, Build>) mapper -> {
                         var entityMapper = Mapper.createTypeMap(TagDto.class, Tag.class);
 
-                        Converter<Set<TagDto>, List<Tag>> tagsConverter = c -> c.getSource() != null ? c.getSource().stream().map(entityMapper::map).toList(): new ArrayList<>();
+                        Converter<Set<TagDto>, List<Tag>> tagsConverter = c -> c.getSource() != null ? c.getSource().stream().map(entityMapper::map).toList() : new ArrayList<>();
 
                         return mapper.addMappings(map -> map.using(tagsConverter).map(BuildDto::getTags, Build::setTags));
                     }
@@ -104,15 +104,15 @@ public class Mapper {
     );
 
     public static <S, D> TypeMap<S, D> createTypeMap(Class<S> sourceClass, Class<D> destinationClass) {
-        Log.d("CreateTypeMap called. source: %s, destination: %s", sourceClass.getName(), destinationClass.getName());
+        Log.v("CreateTypeMap called. source: %s, destination: %s", sourceClass.getName(), destinationClass.getName());
         TypeMap<S, D> typeMap = modelMapper.typeMap(sourceClass, destinationClass);
         String key = sourceClass.getName() + "-" + destinationClass.getName();
 
         if (map.containsKey(key)) {
-            Log.d("Property map found. Use special settings");
+            Log.v("Property map found. Use special settings");
             typeMap = ((MapperConfigure<S, D>) map.get(key)).configure(typeMap);
         } else {
-            Log.d("Property map not found. Use defaults mapper");
+            Log.v("Property map not found. Use defaults mapper");
         }
         return typeMap;
     }
