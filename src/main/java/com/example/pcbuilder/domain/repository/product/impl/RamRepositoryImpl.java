@@ -26,6 +26,11 @@ public class RamRepositoryImpl extends BaseRepository<BaseRamRepository> impleme
     }
 
     @Override
+    public Optional<RAM> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public RAM create(RAM entity) {
         return repository.save(entity);
     }

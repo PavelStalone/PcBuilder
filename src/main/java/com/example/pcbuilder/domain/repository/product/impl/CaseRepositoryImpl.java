@@ -26,6 +26,11 @@ public class CaseRepositoryImpl extends BaseRepository<BaseCaseRepository> imple
     }
 
     @Override
+    public Optional<Case> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public Case create(Case entity) {
         return repository.save(entity);
     }

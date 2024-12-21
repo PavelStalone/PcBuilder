@@ -14,6 +14,8 @@ public interface MotherboardRepository {
 
     Optional<Motherboard> getById(UUID id);
 
+    Optional<Motherboard> findMostPopular();
+
     Motherboard create(Motherboard entity);
 
     Page<Motherboard> getAllByFilter(Specification<Motherboard> spec, Pageable pageable);

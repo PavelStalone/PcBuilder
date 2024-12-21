@@ -14,6 +14,8 @@ public interface HddRepository {
 
     Optional<HDD> getById(UUID id);
 
+    Optional<HDD> findMostPopular();
+
     HDD create(HDD entity);
 
     Page<HDD> getAllByFilter(Specification<HDD> spec, Pageable pageable);

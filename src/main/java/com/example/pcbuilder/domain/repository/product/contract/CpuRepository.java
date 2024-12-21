@@ -14,7 +14,10 @@ public interface CpuRepository {
 
     Optional<Processor> getById(UUID id);
 
+    Optional<Processor> findMostPopular();
+
     Processor create(Processor processor);
 
     Page<Processor> getAllByFilter(Specification<Processor> spec, Pageable pageable);
+
 }

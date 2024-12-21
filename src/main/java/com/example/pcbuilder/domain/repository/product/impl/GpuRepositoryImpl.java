@@ -26,6 +26,11 @@ public class GpuRepositoryImpl extends BaseRepository<BaseGraphicsCardRepository
     }
 
     @Override
+    public Optional<GraphicsCard> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public GraphicsCard create(GraphicsCard entity) {
         return repository.save(entity);
     }

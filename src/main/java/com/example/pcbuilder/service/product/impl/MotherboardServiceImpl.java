@@ -13,7 +13,6 @@ import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -50,6 +49,14 @@ public class MotherboardServiceImpl implements MotherboardService {
         Log.d("getById called - id: " + id);
 
         return repository.getById(id)
+                .map(fromEntity::map);
+    }
+
+    @Override
+    public Optional<MotherboardDto> findMostPopular() {
+        Log.d("findMostPopular called");
+
+        return repository.findMostPopular()
                 .map(fromEntity::map);
     }
 

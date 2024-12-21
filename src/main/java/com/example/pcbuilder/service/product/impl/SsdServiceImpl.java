@@ -53,6 +53,14 @@ public class SsdServiceImpl implements SsdService {
     }
 
     @Override
+    public Optional<SsdDto> findMostPopular() {
+        Log.d("findMostPopular called");
+
+        return repository.findMostPopular()
+                .map(fromEntity::map);
+    }
+
+    @Override
     @CacheEvict(value = {"ssd", "builds"}, allEntries = true)
     public void remove(UUID id) {
         Log.d("remove called - id: " + id);

@@ -26,6 +26,11 @@ public class PowerRepositoryImpl extends BaseRepository<BasePowerRepository> imp
     }
 
     @Override
+    public Optional<PowerUnit> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public PowerUnit create(PowerUnit entity) {
         return repository.save(entity);
     }

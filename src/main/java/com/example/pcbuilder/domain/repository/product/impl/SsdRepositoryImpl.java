@@ -26,6 +26,11 @@ public class SsdRepositoryImpl extends BaseRepository<BaseSsdRepository> impleme
     }
 
     @Override
+    public Optional<SSD> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public SSD create(SSD entity) {
         return repository.save(entity);
     }

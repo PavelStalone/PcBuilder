@@ -13,6 +13,8 @@ public interface CpuService {
 
     Optional<CpuDto> getById(UUID id);
 
+    Optional<CpuDto> findMostPopular();
+
     void remove(UUID id);
 
     PageResult<CpuDto> getAllByFilter(CpuFilter filter);

@@ -26,6 +26,11 @@ public class CpuRepositoryImpl extends BaseRepository<BaseProcessorRepository> i
     }
 
     @Override
+    public Optional<Processor> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public Processor create(Processor processor) {
         return repository.save(processor);
     }

@@ -14,6 +14,8 @@ public interface RamRepository {
 
     Optional<RAM> getById(UUID id);
 
+    Optional<RAM> findMostPopular();
+
     RAM create(RAM entity);
 
     Page<RAM> getAllByFilter(Specification<RAM> spec, Pageable pageable);

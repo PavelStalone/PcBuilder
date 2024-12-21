@@ -14,6 +14,8 @@ public interface GpuRepository {
 
     Optional<GraphicsCard> getById(UUID id);
 
+    Optional<GraphicsCard> findMostPopular();
+
     GraphicsCard create(GraphicsCard entity);
 
     Page<GraphicsCard> getAllByFilter(Specification<GraphicsCard> spec, Pageable pageable);

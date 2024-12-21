@@ -14,6 +14,8 @@ public interface CaseRepository {
 
     Optional<Case> getById(UUID id);
 
+    Optional<Case> findMostPopular();
+
     Case create(Case entity);
 
     Page<Case> getAllByFilter(Specification<Case> spec, Pageable pageable);

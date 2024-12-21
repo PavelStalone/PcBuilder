@@ -26,6 +26,11 @@ public class HddRepositoryImpl extends BaseRepository<BaseHddRepository> impleme
     }
 
     @Override
+    public Optional<HDD> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public HDD create(HDD entity) {
         return repository.save(entity);
     }

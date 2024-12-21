@@ -26,6 +26,11 @@ public class MotherboardRepositoryImpl extends BaseRepository<BaseMotherboardRep
     }
 
     @Override
+    public Optional<Motherboard> findMostPopular() {
+        return repository.findMostPopular();
+    }
+
+    @Override
     public Motherboard create(Motherboard entity) {
         return repository.save(entity);
     }

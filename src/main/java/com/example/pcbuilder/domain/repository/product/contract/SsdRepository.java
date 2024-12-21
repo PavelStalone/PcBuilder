@@ -14,6 +14,8 @@ public interface SsdRepository {
 
     Optional<SSD> getById(UUID id);
 
+    Optional<SSD> findMostPopular();
+
     SSD create(SSD entity);
 
     Page<SSD> getAllByFilter(Specification<SSD> spec, Pageable pageable);

@@ -14,6 +14,8 @@ public interface PowerRepository {
 
     Optional<PowerUnit> getById(UUID id);
 
+    Optional<PowerUnit> findMostPopular();
+
     PowerUnit create(PowerUnit entity);
 
     Page<PowerUnit> getAllByFilter(Specification<PowerUnit> spec, Pageable pageable);
