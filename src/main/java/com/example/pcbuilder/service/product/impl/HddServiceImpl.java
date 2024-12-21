@@ -53,6 +53,7 @@ public class HddServiceImpl implements HddService {
     }
 
     @Override
+    @Cacheable(value = "hdd", key = "'popular'")
     public Optional<HddDto> findMostPopular() {
         Log.d("findMostPopular called");
 

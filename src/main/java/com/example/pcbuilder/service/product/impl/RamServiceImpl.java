@@ -53,6 +53,7 @@ public class RamServiceImpl implements RamService {
     }
 
     @Override
+    @Cacheable(value = "ram", key = "'popular'")
     public Optional<RamDto> findMostPopular() {
         Log.d("findMostPopular called");
 

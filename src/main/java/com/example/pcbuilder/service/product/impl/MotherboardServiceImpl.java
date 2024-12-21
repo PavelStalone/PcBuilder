@@ -53,6 +53,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
+    @Cacheable(value = "motherboard", key = "'popular'")
     public Optional<MotherboardDto> findMostPopular() {
         Log.d("findMostPopular called");
 

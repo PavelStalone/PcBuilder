@@ -53,6 +53,7 @@ public class PowerServiceImpl implements PowerService {
     }
 
     @Override
+    @Cacheable(value = "power", key = "'popular'")
     public Optional<PowerDto> findMostPopular() {
         Log.d("findMostPopular called");
 

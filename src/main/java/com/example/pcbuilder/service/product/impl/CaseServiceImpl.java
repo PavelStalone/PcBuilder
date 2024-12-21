@@ -55,6 +55,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
+    @Cacheable(value = "cases", key = "'popular'")
     public Optional<CaseDto> findMostPopular() {
         Log.d("findMostPopular called");
 

@@ -59,6 +59,7 @@ public class CpuServiceImpl implements CpuService {
     }
 
     @Override
+    @Cacheable(value = "cpu", key = "'popular'")
     public Optional<CpuDto> findMostPopular() {
         Log.d("findMostPopular called");
 

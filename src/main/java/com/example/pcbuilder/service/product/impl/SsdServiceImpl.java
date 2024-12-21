@@ -53,6 +53,7 @@ public class SsdServiceImpl implements SsdService {
     }
 
     @Override
+    @Cacheable(value = "ssd", key = "'popular'")
     public Optional<SsdDto> findMostPopular() {
         Log.d("findMostPopular called");
 

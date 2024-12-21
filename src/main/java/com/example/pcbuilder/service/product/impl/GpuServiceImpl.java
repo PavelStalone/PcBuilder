@@ -53,6 +53,7 @@ public class GpuServiceImpl implements GpuService {
     }
 
     @Override
+    @Cacheable(value = "gpu", key = "'popular'")
     public Optional<GpuDto> findMostPopular() {
         Log.d("findMostPopular called");
 
