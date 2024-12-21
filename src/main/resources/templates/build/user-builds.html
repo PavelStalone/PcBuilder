@@ -18,7 +18,7 @@
                                     <h5 class="card-title mb-0">Фильтрация</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form th:action="@{/build/users}" method="get">
+                                    <form th:action="@{/build/users}" method="get" th:object="${filter}">
                                         <div class="mb-3">
                                             <label for="ownerName" class="form-label">Автор сборки</label>
                                             <input type="text" class="form-control" id="ownerName" name="ownerName"
@@ -45,33 +45,67 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="isDescCost"
-                                                       name="isDescCost" th:checked="${filter?.isDescCost}">
-                                                <label class="form-check-label" for="isDescCost">
-                                                    Сначала дорогие
-                                                </label>
-                                            </div>
+                                            <label for="sortType" class="form-label">Сортировка</label>
+                                            <select class="form-select"
+                                                    id="sortType"
+                                                    name="sortType">
+                                                <option th:each="sortType : ${T(edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildSort).values()}"
+                                                        th:value="${sortType}"
+                                                        th:text="${sortType.description}"
+                                                        th:selected="${sortType == filter?.sortType}">
+                                                    Вариант сортировки
+                                                </option>
+                                            </select>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Цена</label>
                                             <div class="d-flex gap-2">
-                                                <input type="number" class="form-control" name="costLower"
-                                                       placeholder="От" th:value="${filter?.costLower}">
-                                                <input type="number" class="form-control" name="costUpper"
-                                                       placeholder="До" th:value="${filter?.costUpper}">
+                                                <input type="number"
+                                                       class="form-control"
+                                                       name="costLower"
+                                                       placeholder="От"
+                                                       th:value="${filter?.costLower}"
+                                                       th:errorclass="is-invalid">
+                                                <input type="number"
+                                                       class="form-control"
+                                                       name="costUpper"
+                                                       placeholder="До"
+                                                       th:value="${filter?.costUpper}"
+                                                       th:errorclass="is-invalid">
                                             </div>
+
+                                            <small th:if="${#fields.hasErrors('costLower')}"
+                                                   th:errors="*{costLower}"
+                                                   class="text-danger">Error message</small>
+                                            <small th:if="${#fields.hasErrors('costUpper') && !#fields.hasErrors('costLower')}"
+                                                   th:errors="*{costUpper}"
+                                                   class="text-danger">Error message</small>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Рейтинг</label>
                                             <div class="d-flex gap-2">
-                                                <input type="number" class="form-control" name="rateLower"
-                                                       placeholder="От" th:value="${filter?.rateLower}">
-                                                <input type="number" class="form-control" name="rateUpper"
-                                                       placeholder="До" th:value="${filter?.rateUpper}">
+                                                <input type="number"
+                                                       class="form-control"
+                                                       name="rateLower"
+                                                       placeholder="От"
+                                                       th:value="${filter?.rateLower}"
+                                                       th:errorclass="is-invalid">
+                                                <input type="number"
+                                                       class="form-control"
+                                                       name="rateUpper"
+                                                       placeholder="До"
+                                                       th:value="${filter?.rateUpper}"
+                                                       th:errorclass="is-invalid">
                                             </div>
+
+                                            <small th:if="${#fields.hasErrors('rateLower')}"
+                                                   th:errors="*{rateLower}"
+                                                   class="text-danger">Error message</small>
+                                            <small th:if="${#fields.hasErrors('rateUpper') && !#fields.hasErrors('rateLower')}"
+                                                   th:errors="*{rateUpper}"
+                                                   class="text-danger">Error message</small>
                                         </div>
 
                                         <div class="d-grid gap-2">
@@ -155,7 +189,7 @@
                                    size=${filter.size},
                                    ownerName=${filter.ownerName},
                                    tags=${filter.tags?.![id]},
-                                   isDescCost=${filter.isDescCost},
+                                   sortType=${filter.sortType},
                                    rateLower=${filter.rateLower},
                                    rateUpper=${filter.rateUpper},
                                    costLower=${filter.costLower},

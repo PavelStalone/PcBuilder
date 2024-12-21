@@ -12,6 +12,7 @@ import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildViewModel;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,8 @@ public class BuildControllerImpl implements BuildController {
     @Override
     @GetMapping("/users")
     public String usersBuilds(
-            @ModelAttribute("filter") BuildFilter filter,
+            @Valid @ModelAttribute("filter") BuildFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("usersBuilds called - filter: " + filter);
@@ -52,12 +54,13 @@ public class BuildControllerImpl implements BuildController {
                 filter.size() != null ? filter.size() : 10,
                 filter.ownerName(),
                 filter.tags(),
-                filter.isDescCost(),
+                filter.sortType(),
                 filter.rateLower(),
                 filter.rateUpper(),
                 filter.costLower(),
                 filter.costUpper()
         );
+
         var availableTags = tagService.getAvailableTags();
         var result = buildService.getAllByFilter(filterIn);
         var builds = result
@@ -72,7 +75,7 @@ public class BuildControllerImpl implements BuildController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open users builds on %d page", filterIn.page());
         return "build/user-builds";

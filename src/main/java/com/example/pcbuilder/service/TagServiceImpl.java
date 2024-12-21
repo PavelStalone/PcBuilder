@@ -11,8 +11,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @EnableCaching
@@ -32,9 +33,10 @@ public class TagServiceImpl implements TagService {
     public Set<TagDto> getAvailableTags() {
         Log.d("getAvailableTags called");
 
-        return repository.getAvailableTags()
+        return new LinkedHashSet<>(repository.getAvailableTags()
                 .stream()
                 .map((it) -> Mapper.createTypeMap(Tag.class, TagDto.class).map(it))
-                .collect(Collectors.toSet());
+                .sorted(Comparator.comparing(TagDto::getName))
+                .toList());
     }
 }

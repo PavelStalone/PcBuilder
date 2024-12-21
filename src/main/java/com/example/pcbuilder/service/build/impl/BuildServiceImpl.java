@@ -67,9 +67,16 @@ public class BuildServiceImpl implements BuildService {
     public PageResult<BuildDto> getAllByFilter(BuildFilter filter) {
         Log.d("getAllByFilter called - filter: " + filter);
 
-        var sortByCost = Sort.by("cost");
-
-        if (filter.isDescCost() != null && filter.isDescCost()) sortByCost = sortByCost.descending();
+        Sort sort = Sort.by("cost");
+        if (filter.sortType() != null) {
+            switch (filter.sortType()) {
+                case PRICE_ASC, PRICE_DESC -> sort = Sort.by("cost");
+                case RATE_ASC, RATE_DESC -> sort = Sort.by("averageRate");
+            }
+            switch (filter.sortType()) {
+                case RATE_DESC, PRICE_DESC -> sort = sort.descending();
+            }
+        }
 
         Specification<Build> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -79,7 +86,7 @@ public class BuildServiceImpl implements BuildService {
                     .filter((it) -> !it.isEmpty())
                     .ifPresent((it) -> predicates.add(
                             criteriaBuilder.like(
-                                    criteriaBuilder.lower(root.get("owner").get("nickName")),
+                                    criteriaBuilder.lower(root.get("owner").get("username")),
                                     "%" + it.toLowerCase() + "%"
                             )
                     ));
@@ -136,7 +143,7 @@ public class BuildServiceImpl implements BuildService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
-        var pageable = PageRequest.of(filter.page() - 1, filter.size(), sortByCost);
+        var pageable = PageRequest.of(filter.page() - 1, filter.size(), sort);
         var page = repository.getAllByFilter(specification, pageable).map(fromEntity::map);
 
         return new PageResult<>(page.toList(), page.getTotalPages());
