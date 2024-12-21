@@ -5,14 +5,12 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.CpuService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.CpuController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CaseDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.CpuFilter;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.pccase.CaseViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +39,7 @@ public class CpuControllerImpl implements CpuController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") CpuFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -73,7 +72,7 @@ public class CpuControllerImpl implements CpuController {
         );
 
         model.addAttribute("model", cpuVM);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open cpu list on %d page", filterIn.page());
         return "product/cpu/list";

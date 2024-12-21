@@ -5,10 +5,8 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.MotherboardService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.MotherboardController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.MotherboardDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.MotherboardFilter;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardListViewModel;
@@ -41,6 +39,7 @@ public class MotherboardControllerImpl implements MotherboardController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") MotherboardFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -73,7 +72,7 @@ public class MotherboardControllerImpl implements MotherboardController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open motherboard list on %d page", filterIn.page());
         return "product/motherboard/list";

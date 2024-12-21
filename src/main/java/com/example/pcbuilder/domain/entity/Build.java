@@ -37,6 +37,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "ram_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public RAM getRam() {
         return ram;
     }
@@ -47,6 +48,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "ssd_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public SSD getSsd() {
         return ssd;
     }
@@ -57,6 +59,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "hdd_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public HDD getHdd() {
         return hdd;
     }
@@ -133,6 +136,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "cpu_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public Processor getCpu() {
         return cpu;
     }
@@ -175,6 +179,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "gpu_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public GraphicsCard getGpu() {
         return gpu;
     }
@@ -217,6 +222,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "power_unit_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public PowerUnit getPowerUnit() {
         return powerUnit;
     }
@@ -227,6 +233,7 @@ public class Build extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "motherboard_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     public Motherboard getMotherboard() {
         return motherboard;
     }

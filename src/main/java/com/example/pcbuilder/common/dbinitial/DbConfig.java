@@ -93,7 +93,7 @@ public class DbConfig {
             AdminService<TagDto> service,
             ClassFiller<TagDto> filler
     ) {
-        return new BaseWriter<>(service, filler, "Tag");
+        return new BaseWriter<>(service, filler, "Tag", 20);
     }
 
     @Bean

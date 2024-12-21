@@ -5,10 +5,8 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.PowerService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.PowerController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.MotherboardDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.PowerDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.PowerFilter;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.motherboard.MotherboardViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.power.PowerListViewModel;
@@ -41,6 +39,7 @@ public class PowerControllerImpl implements PowerController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") PowerFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -67,7 +66,7 @@ public class PowerControllerImpl implements PowerController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open power list on %d page", filterIn.page());
         return "product/power/list";

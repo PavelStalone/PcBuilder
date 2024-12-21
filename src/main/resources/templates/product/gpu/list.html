@@ -18,7 +18,7 @@
                                     <h5 class="card-title mb-0">Фильтрация</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form th:action="@{/product/gpu}" method="get">
+                                    <form th:action="@{/product/gpu}" method="get" th:object="${filter}">
                                         <div class="mb-3">
                                             <label for="model" class="form-label">Модель</label>
                                             <input type="text" class="form-control" id="model" name="model"
@@ -39,30 +39,57 @@
                                             <label class="form-label">Цена</label>
                                             <div class="d-flex gap-2">
                                                 <input type="number" class="form-control" name="costLower"
-                                                       placeholder="От" th:value="${filter?.costLower}">
+                                                       placeholder="От" th:value="${filter?.costLower}"
+                                                       th:errorclass="is-invalid">
                                                 <input type="number" class="form-control" name="costUpper"
-                                                       placeholder="До" th:value="${filter?.costUpper}">
+                                                       placeholder="До" th:value="${filter?.costUpper}"
+                                                       th:errorclass="is-invalid">
                                             </div>
+
+                                            <small th:if="${#fields.hasErrors('costLower')}"
+                                                   th:errors="*{costLower}"
+                                                   class="text-danger">Error message</small>
+                                            <small th:if="${#fields.hasErrors('costUpper') && !#fields.hasErrors('costLower')}"
+                                                   th:errors="*{costUpper}"
+                                                   class="text-danger">Error message</small>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Частота (ГГц)</label>
                                             <div class="d-flex gap-2">
                                                 <input type="number" class="form-control" name="freqLower"
-                                                       placeholder="От" th:value="${filter?.freqLower}">
+                                                       placeholder="От" th:value="${filter?.freqLower}"
+                                                       th:errorclass="is-invalid">
                                                 <input type="number" class="form-control" name="freqUpper"
-                                                       placeholder="До" th:value="${filter?.freqUpper}">
+                                                       placeholder="До" th:value="${filter?.freqUpper}"
+                                                       th:errorclass="is-invalid">
                                             </div>
+
+                                            <small th:if="${#fields.hasErrors('freqLower')}"
+                                                   th:errors="*{freqLower}"
+                                                   class="text-danger">Error message</small>
+                                            <small th:if="${#fields.hasErrors('freqUpper') && !#fields.hasErrors('freqLower')}"
+                                                   th:errors="*{freqUpper}"
+                                                   class="text-danger">Error message</small>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Объем памяти (ГБ)</label>
                                             <div class="d-flex gap-2">
                                                 <input type="number" class="form-control" name="memoryLower"
-                                                       placeholder="От" th:value="${filter?.memoryLower}">
+                                                       placeholder="От" th:value="${filter?.memoryLower}"
+                                                       th:errorclass="is-invalid">
                                                 <input type="number" class="form-control" name="memoryUpper"
-                                                       placeholder="До" th:value="${filter?.memoryUpper}">
+                                                       placeholder="До" th:value="${filter?.memoryUpper}"
+                                                       th:errorclass="is-invalid">
                                             </div>
+
+                                            <small th:if="${#fields.hasErrors('memoryLower')}"
+                                                   th:errors="*{memoryLower}"
+                                                   class="text-danger">Error message</small>
+                                            <small th:if="${#fields.hasErrors('memoryUpper') && !#fields.hasErrors('memoryLower')}"
+                                                   th:errors="*{memoryUpper}"
+                                                   class="text-danger">Error message</small>
                                         </div>
 
                                         <div class="d-grid gap-2">

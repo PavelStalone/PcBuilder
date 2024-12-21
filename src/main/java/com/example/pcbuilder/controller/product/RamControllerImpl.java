@@ -49,6 +49,7 @@ public class RamControllerImpl implements RamController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") RamFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -77,7 +78,7 @@ public class RamControllerImpl implements RamController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open ram list on %d page", filterIn.page());
         return "product/ram/list";

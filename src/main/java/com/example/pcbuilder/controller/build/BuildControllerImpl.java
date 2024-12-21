@@ -12,7 +12,6 @@ import edu.rutmiit.example.pcbuildercontracts.dto.build.filter.BuildFilter;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildListViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.build.viewmodel.BuildViewModel;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +42,7 @@ public class BuildControllerImpl implements BuildController {
     @Override
     @GetMapping("/users")
     public String usersBuilds(
-            @Valid @ModelAttribute("filter") BuildFilter filter,
+            @ModelAttribute("filter") BuildFilter filter,
             BindingResult bindingResult,
             Model model
     ) {
@@ -83,7 +82,7 @@ public class BuildControllerImpl implements BuildController {
 
     @Override
     @GetMapping
-    public String list(BuildFilter filter, Model model) {
+    public String list(BuildFilter filter, BindingResult bindingResult, Model model) {
         return null;
     }
 

@@ -40,6 +40,7 @@ public class CaseControllerImpl implements CaseController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") CaseFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -64,7 +65,7 @@ public class CaseControllerImpl implements CaseController {
         );
 
         model.addAttribute("model", caseVM);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open cases list on %d page", filterIn.page());
         return "product/case/list";

@@ -5,10 +5,8 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.HddService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.HddController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.GpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.HddDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.HddFilter;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.hdd.HddListViewModel;
@@ -41,6 +39,7 @@ public class HddControllerImpl implements HddController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") HddFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -71,7 +70,7 @@ public class HddControllerImpl implements HddController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open hdd list on %d page", filterIn.page());
         return "product/hdd/list";

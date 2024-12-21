@@ -39,6 +39,7 @@ public class SsdControllerImpl implements SsdController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") SsdFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -69,7 +70,7 @@ public class SsdControllerImpl implements SsdController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open ssd list on %d page", filterIn.page());
         return "product/ssd/list";

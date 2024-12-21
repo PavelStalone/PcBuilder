@@ -45,20 +45,20 @@ public class AuthControllerImpl implements AuthController {
     public String doRegister(
             @ModelAttribute("form") UserRegistrationDto form,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+            Model model
     ) {
         Log.d("doRegister called - form: " + form);
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userRegistrationDto", form);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDto", bindingResult);
+            model.addAttribute("model", new UserRegisterInputViewModel(createBaseViewModel("Регистрация")));
+            model.addAttribute("form", form);
 
-            return "redirect:/users/register";
+            return "user/register";
         }
 
         authService.register(form);
 
-        return "redirect:/users/login";
+        return "redirect:/user/login";
     }
 
     @Override

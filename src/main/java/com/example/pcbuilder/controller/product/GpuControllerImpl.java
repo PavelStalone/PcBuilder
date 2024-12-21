@@ -5,10 +5,8 @@ import com.example.pcbuilder.common.mapper.Mapper;
 import com.example.pcbuilder.service.product.contract.GpuService;
 import edu.rutmiit.example.pcbuildercontracts.controllers.product.GpuController;
 import edu.rutmiit.example.pcbuildercontracts.dto.base.BaseViewModel;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.CpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.GpuDto;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.filter.GpuFilter;
-import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.cpu.CpuViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuDetailsViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuInputViewModel;
 import edu.rutmiit.example.pcbuildercontracts.dto.product.viewmodel.gpu.GpuListViewModel;
@@ -42,6 +40,7 @@ public class GpuControllerImpl implements GpuController {
     @GetMapping
     public String list(
             @ModelAttribute("filter") GpuFilter filter,
+            BindingResult bindingResult,
             Model model
     ) {
         Log.d("list called - filter: " + filter);
@@ -70,7 +69,7 @@ public class GpuControllerImpl implements GpuController {
         );
 
         model.addAttribute("model", viewModel);
-        model.addAttribute("filter", filterIn);
+        model.addAttribute("filter", bindingResult.hasErrors() ? filter : filterIn);
 
         Log.i("Open gpu list on %d page", filterIn.page());
         return "product/gpu/list";
