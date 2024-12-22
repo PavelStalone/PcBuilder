@@ -10,12 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Scanner;
 
 @Component
 public class DbInitRunner implements CommandLineRunner {
-
-    private static final Scanner scanner = new Scanner(System.in);
 
     private final List<DbRandomWriter> randomWriters;
     private final UserRoleRepository userRoleRepository;
@@ -37,12 +34,20 @@ public class DbInitRunner implements CommandLineRunner {
     }
 
     private void initRoles() {
-        if (userRoleRepository.count() == 0) {
+        var itemCounts = userRoleRepository.count();
+
+        if (itemCounts == 0) {
+            Log.d("Role not found, start writing...");
+
             var adminRole = new Role(UserRoles.ADMIN);
             var normalUserRole = new Role(UserRoles.USER);
 
             userRoleRepository.save(adminRole);
             userRoleRepository.save(normalUserRole);
+
+            Log.d("Role finished");
+        } else {
+            Log.d("Role already have %d items, skipping...", itemCounts);
         }
     }
 }

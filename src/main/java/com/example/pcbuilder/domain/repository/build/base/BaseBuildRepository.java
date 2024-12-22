@@ -13,12 +13,4 @@ import java.util.List;
 
 @Repository
 public interface BaseBuildRepository extends DefaultRepository<Build> {
-
-    @Query("Select b FROM Build b WHERE :tags MEMBER OF b.tags AND b.cost BETWEEN :minCost AND :maxCost")
-    Page<Build> getAllBuildsByTagsAndCost(
-            @Param(value = "tags") List<Tag> tags,
-            @Param(value = "minCost") int minCost,
-            @Param(value = "maxCost") int maxCost,
-            Pageable pageable
-    );
 }

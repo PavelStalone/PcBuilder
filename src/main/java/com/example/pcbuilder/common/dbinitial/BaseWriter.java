@@ -40,7 +40,7 @@ public class BaseWriter<T> implements DbRandomWriter {
         if (limit > 0 && limit < repeat) repeat = limit;
 
         if (itemCounts <= 0 && repeat > 0) {
-            Log.d("%s not found, starting writing...", entityName);
+            Log.d("%s not found, start writing...", entityName);
 
             var items = Stream.generate(itemFiller::getFill)
                     .limit(repeat)
